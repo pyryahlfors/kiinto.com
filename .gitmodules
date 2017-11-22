@@ -1,0 +1,9 @@
+[submodule "projects/tetris"]
+	path = projects/tetris
+	url = https://github.com/pyryahlfors/tetris
+[submodule "projects/unweave"]
+	path = projects/unweave
+	url = https://github.com/pyryahlfors/unweave
+[submodule "projects/fp_timer"]
+	path = projects/fp_timer
+	url = https://github.com/pyryahlfors/fp_timer
