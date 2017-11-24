@@ -109,7 +109,10 @@ h1 {
 }
 
 /* <-- Intro */
-
+.intro, .outro, div.section {
+	backface-visibility: hidden;
+	background: var(--color-black);
+}
 div.section {
 	padding: 1rem 1rem 4vw;
 	position: relative;
@@ -150,18 +153,14 @@ div.outro:last-of-type:after{
 }
 */
 
-div.section:nth-of-type(odd) {
+div.section:nth-of-type(odd) .section-content{
 	background: var(--color-white);
 	color: var(--color-black);
 }
 
-div.section:nth-of-type(even) {
+div.section:nth-of-type(even) .section-content{
 	background: var(--color-light-gray);
 	color: var(--color-black);
-}
-
-div.section:last-of-type {
-	background: #f80;
 }
 
 
