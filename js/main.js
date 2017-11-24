@@ -81,7 +81,7 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 		else { return '';}
 		})();
 
-	var nakitus = function(){
+	var initParallax = function(){
 		var parallaxElem = document.querySelectorAll(".snap-container > DIV");
 		var scrollPos = document.querySelector('.snap-container').scrollTop;
 		for(var i=0, j=parallaxElem.length; i<j;i++){
@@ -96,7 +96,7 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 			var nakki = [];
 			for(var i=0, j=parallaxElem.length; i<j;i++){
 				if(parallaxElem[i].parallaxBottom < y+window.innerHeight) {
-					nakki[i] = (y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))-((y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))*0.3);
+					nakki[i] = (y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))-((y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))*0.6);
 					}
 				else {
 					nakki[i] = 0;
@@ -112,6 +112,6 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 			checkScrollPos ( document.querySelector('.snap-container').scrollTop );
 		};
 
-		window.addEventListener('DOMContentLoaded', nakitus, false);
-		window.addEventListener('resize', nakitus, false);
+		window.addEventListener('DOMContentLoaded', initParallax, false);
+		window.addEventListener('resize', initParallax, false);
 	})();
