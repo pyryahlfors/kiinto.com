@@ -16,13 +16,13 @@
 	var widgets = [
 		function() {
 			starfield.init();
-		},
+		}/*,
 		function() {
 			particles.init();
 		},
 		function() {
 			wormhole.init();
-		},
+		},*/
 		//		function() {medusa.init()}
 		//    function(){new plasma()},
 		//    function(){walker.init();},
@@ -92,10 +92,11 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 			parallaxElem[i].contentContainer = parallaxElem[i].querySelector('.section-content');
 		}
 
-		var checkScrollPos = function( y ) {
-			var nakki = [];
+		 function checkScrollPos( ) {
+			let y = document.querySelector('.snap-container').scrollTop;
+			let nakki = [];
 			for(var i=0, j=parallaxElem.length; i<j;i++){
-				if(parallaxElem[i].parallaxBottom < y+window.innerHeight) {
+				if(parallaxElem[i].parallaxBottom < y+window.innerHeight && parallaxElem[i].parallaxBottom > y) {
 					nakki[i] = (y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))-((y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))*0.6);
 					}
 				else {
@@ -106,7 +107,8 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 					parallaxElem[i].contentContainer.style.opacity = 1-nakki[i]/window.innerHeight;
 					}
 				}
-			};
+			requestAnimationFrame(checkScrollPos);
+			}
 
 			document.querySelector('.snap-container').addEventListener('scroll', function ( a ) {checkScrollPos ( this.scrollTop );}, false);
 			checkScrollPos ( document.querySelector('.snap-container').scrollTop );
