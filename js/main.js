@@ -16,16 +16,14 @@
 	var widgets = [
 		function() {
 			starfield.init();
-		}/*,
-		function() {
-			particles.init();
-		},
-		function() {
-			wormhole.init();
-		},*/
-		//		function() {medusa.init()}
-		//    function(){new plasma()},
-		//    function(){walker.init();},
+		}
+		/*,
+		function() {particles.init();},
+		function() {wormhole.init();},
+		function() {medusa.init()}
+		function(){new plasma()},
+		function(){walker.init();}
+		*/
 	];
 
 	var rand = Math.round(Math.random() * (widgets.length - 1));
@@ -93,25 +91,28 @@ window.addEventListener('DOMContentLoaded', addAnimations, false);
 		}
 
 		 function checkScrollPos( ) {
-			let y = document.querySelector('.snap-container').scrollTop;
-			let nakki = [];
-			for(var i=0, j=parallaxElem.length; i<j;i++){
-				if(parallaxElem[i].parallaxBottom < y+window.innerHeight && parallaxElem[i].parallaxBottom > y) {
-					nakki[i] = (y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))-((y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))*0.6);
+			 requestAnimationFrame(function(){
+				let y = document.querySelector('.snap-container').scrollTop;
+				let nakki = [];
+				for(var i=0, j=parallaxElem.length; i<j;i++){
+					if(parallaxElem[i].parallaxBottom < y+window.innerHeight && parallaxElem[i].parallaxBottom > y) {
+						nakki[i] = (y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))-((y-parallaxElem[i].parallaxTop-(parallaxElem[i].parallaxTopOffset))*0.6);
+						}
+					else {
+						nakki[i] = 0;
+						}
+					parallaxElem[i].style[cssEngine+'Transform']= `translate3d(0, ${nakki[i].toFixed(2)}px, 0)`;
+					if(parallaxElem[i].contentContainer) {
+						parallaxElem[i].contentContainer.style.opacity = (1-nakki[i]/window.innerHeight).toFixed(2);
+						}
 					}
-				else {
-					nakki[i] = 0;
-					}
-				parallaxElem[i].style[cssEngine+'Transform']= `translateY(${nakki[i]}px)`;
-				if(parallaxElem[i].contentContainer) {
-					parallaxElem[i].contentContainer.style.opacity = 1-nakki[i]/window.innerHeight;
-					}
-				}
-			requestAnimationFrame(checkScrollPos);
+				});
+//			requestAnimationFrame(checkScrollPos);
 			}
 
-			document.querySelector('.snap-container').addEventListener('scroll', function ( a ) {checkScrollPos ( this.scrollTop );}, false);
-			checkScrollPos ( document.querySelector('.snap-container').scrollTop );
+//			document.querySelector('.snap-container').addEventListener('scroll', function ( a ) {checkScrollPos ( this.scrollTop );}, false);
+//			checkScrollPos ( document.querySelector('.snap-container').scrollTop );
+			scrollIntervalID = setInterval(checkScrollPos, 10);
 		};
 
 		window.addEventListener('DOMContentLoaded', initParallax, false);
