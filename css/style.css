@@ -9,6 +9,7 @@
 
 html {
 	font-size: 100%;
+	overflow: hidden;
 }
 
 body {
@@ -139,30 +140,6 @@ h1 {
 .article-container.no-padding {
 	padding: 0;
 }
-/*
-div.intro:first-of-type:after, div.intro:last-of-type:after,
-div.outro:first-of-type:after, div.outro:last-of-type:after {
-	border-color: transparent transparent var(--color-light-gray);
-	border-style: solid;
-	border-width: 0 0 5vh 100vw;
-	content: '';
-	font-size: 0;
-	left: 0;
-	position: absolute;
-	right: 0;
-	top: auto;
-	bottom: 0;
-	transform: translate3d(0, 0, 0);
-	z-index: 3;
-}
-
-div.intro:last-of-type:after,
-div.outro:last-of-type:after{
-	border-color: transparent var(--color-light-gray) transparent;
-	top: 0;
-	bottom: auto;
-}
-*/
 
 .article-container:nth-of-type(odd) .article-content{
 	background: var(--color-white);
@@ -361,19 +338,6 @@ hr {
 	margin: 0 10px 5px 0;
 	text-transform: lowercase;
 }
-
-/*
-.tags span:after {
-	border-bottom: 2px solid var(--color-black);
-	bottom: -4px;
-	content: "";
-	left: 0;
-	height: 4px;
-	left: -5px;
-	right: -5px;
-	position: absolute;
-}
-*/
 
 span.arrow {
 	animation: 3s arrow infinite ease-in-out;
