@@ -40,7 +40,7 @@ Kiinto parallax -->
 			parallaxElem[i].parallaxTop = parallaxElem[i].getBoundingClientRect().top + scrollPos;
 			parallaxElem[i].parallaxHeight = parallaxElem[i].getBoundingClientRect().height;
 			parallaxElem[i].parallaxTopOffset = (parallaxElem[i].parallaxHeight - window.innerHeight);
-			parallaxElem[i].contentContainer = parallaxElem[i].querySelector('.section-content');
+			parallaxElem[i].contentContainer = parallaxElem[i].querySelector('.article-content');
 		}
 
 		function checkScrollPos() {
@@ -56,6 +56,7 @@ Kiinto parallax -->
 					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${nakki[i].toFixed(2)}px, 0)`;
 					if (parallaxElem[i].contentContainer) {
 						parallaxElem[i].contentContainer.style.opacity = (1 - nakki[i] / window.innerHeight).toFixed(2);
+						console.log( (1 - nakki[i] / window.innerHeight).toFixed(2));
 					}
 				}
 			});
