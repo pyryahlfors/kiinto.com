@@ -56,7 +56,6 @@ Kiinto parallax -->
 					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${nakki[i].toFixed(2)}px, 0)`;
 					if (parallaxElem[i].contentContainer) {
 						parallaxElem[i].contentContainer.style.opacity = (1 - nakki[i] / window.innerHeight).toFixed(2);
-						console.log( (1 - nakki[i] / window.innerHeight).toFixed(2));
 					}
 				}
 			});
