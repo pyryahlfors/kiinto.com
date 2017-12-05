@@ -44,26 +44,23 @@ Kiinto parallax -->
 		}
 
 		function checkScrollPos() {
+			let windowHeight = window.innerHeight;
 			requestAnimationFrame(function() {
 				let y = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-				let nakki = [];
+				let parallaxAmount = [];
 				for (var i = 0, j = parallaxElem.length; i < j; i++) {
-					if (parallaxElem[i].parallaxBottom < y + window.innerHeight && parallaxElem[i].parallaxBottom > y) {
-						nakki[i] = (y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) - ((y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) * 0.6);
+					if (parallaxElem[i].parallaxBottom < y + windowHeight && parallaxElem[i].parallaxBottom > y) {
+						parallaxAmount[i] = (y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) - ((y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) * 0.6);
 					} else {
-						nakki[i] = 0;
+						parallaxAmount[i] = 0;
 					}
-					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${nakki[i].toFixed(2)}px, 0) perspective(${window.innerHeight*2}px) rotateX(${-1*nakki[i]/10}deg)`;
+					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${parallaxAmount[i].toFixed(2)}px, 0) perspective(${windowHeight*2}px) rotateX(${-1*parallaxAmount[i]/10}deg)`;
 					if (parallaxElem[i].contentContainer) {
-						parallaxElem[i].contentContainer.style.opacity = (1 - nakki[i] / window.innerHeight).toFixed(2);
+						parallaxElem[i].contentContainer.style.opacity = (1 - parallaxAmount[i] / windowHeight).toFixed(2);
 					}
 				}
 			});
-			//			requestAnimationFrame(checkScrollPos);
 		}
-
-		//			document.querySelector('.snap-container').addEventListener('scroll', function ( a ) {checkScrollPos ( this.scrollTop );}, false);
-		//			checkScrollPos ( document.querySelector('.snap-container').scrollTop );
 		scrollIntervalID = setInterval(checkScrollPos, 10);
 	};
 
