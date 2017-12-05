@@ -9,7 +9,6 @@
 
 html {
 	font-size: 100%;
-	overflow: hidden;
 }
 
 body {
@@ -20,7 +19,7 @@ body {
 	font-family: 'Open Sans', sans-serif;
 	height: 100vh;
 	margin: 0;
-	overflow-x: hidden;
+	overflow: hidden;
 	overflow-y: auto;
 	position: relative;
 	-webkit-scroll-behavior: smooth;
