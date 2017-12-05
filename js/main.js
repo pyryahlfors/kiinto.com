@@ -51,7 +51,7 @@ Kiinto parallax -->
 
 	var initParallax = function() {
 		var parallaxElem = document.querySelectorAll("DIV.article-container, .intro");
-		var scrollPos = document.documentElement.scrollTop;
+		var scrollPos = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 		for (var i = 0, j = parallaxElem.length; i < j; i++) {
 			parallaxElem[i].parallaxBottom = parallaxElem[i].getBoundingClientRect().bottom + scrollPos;
 			parallaxElem[i].parallaxTop = parallaxElem[i].getBoundingClientRect().top + scrollPos;
@@ -62,7 +62,7 @@ Kiinto parallax -->
 
 		function checkScrollPos() {
 			requestAnimationFrame(function() {
-				let y = document.documentElement.scrollTop;
+				let y = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 				let nakki = [];
 				for (var i = 0, j = parallaxElem.length; i < j; i++) {
 					if (parallaxElem[i].parallaxBottom < y + window.innerHeight && parallaxElem[i].parallaxBottom > y) {
