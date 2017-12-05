@@ -12,23 +12,6 @@
 	}
 	*/
 
-	// Randomize 'hero' widget
-	var widgets = [
-		function() {
-			starfield.init();
-		}
-		/*,
-		function() {particles.init();},
-		function() {wormhole.init();},
-		function() {medusa.init()}
-		function(){new plasma()},
-		function(){walker.init();}
-		*/
-	];
-
-	var rand = Math.round(Math.random() * (widgets.length - 1));
-	widgets[rand]();
-
 	var scrollButton = document.querySelector('a.scroll');
 	scrollButton.addEventListener('click', function() {
 		window.scroll(0, Math.max(document.documentElement.clientHeight, window.innerHeight || 0));

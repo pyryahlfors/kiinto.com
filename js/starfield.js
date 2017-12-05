@@ -1,6 +1,6 @@
 /*jshint esversion: 6 */
 
-var starfield = {
+let starfield = {
     settings : {
         density: 50,
         startingX: 0,
@@ -140,3 +140,5 @@ class particle {
       this.yy = this.y;
   }
 }
+
+starfield.init();
