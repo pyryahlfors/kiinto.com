@@ -53,7 +53,7 @@ Kiinto parallax -->
 					} else {
 						nakki[i] = 0;
 					}
-					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${nakki[i].toFixed(2)}px, 0)`;
+					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${nakki[i].toFixed(2)}px, 0) perspective(${window.innerHeight*2}px) rotateX(${-1*nakki[i]/10}deg)`;
 					if (parallaxElem[i].contentContainer) {
 						parallaxElem[i].contentContainer.style.opacity = (1 - nakki[i] / window.innerHeight).toFixed(2);
 					}

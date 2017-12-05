@@ -132,6 +132,8 @@ h1 {
 	overflow: hidden;
 	-webkit-scroll-snap-coordinate: 0% 0%;
 	scroll-snap-coordinate: 0% 0%;
+	transform-origin: 50% 50%;
+
 }
 
 .article-container.no-padding {
