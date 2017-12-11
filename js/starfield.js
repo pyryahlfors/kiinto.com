@@ -65,9 +65,14 @@ let starfield = {
     requestAnimationFrame(this.animate.bind(this));
     },
 
+	isElementInViewport: function() {
+		var rect = this.canvas.getBoundingClientRect();
+		return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
+	},
+
     animate: function(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.05)";
+        this.ctx.fillStyle = "rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.1)";
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         for (var i = 0; i < this.settings.density; i++) {
             if (Math.random() > 0.97) {
@@ -84,8 +89,7 @@ let starfield = {
 
         this.colorCycle+=0.5;
         if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
-
-        requestAnimationFrame(this.animate.bind(this));
+    	requestAnimationFrame(this.animate.bind(this));
     }
 };
 

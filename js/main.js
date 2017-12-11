@@ -1,18 +1,7 @@
 /*jshint esversion: 6 */
 
 (function() {
-	/*
-	if (window.contentful) {
-		var client = contentful.createClient({space: 'mtdtfk8wt9f8', accessToken: 'aff9afcceeb8549ff1c488ad9190133337681d2ea0b7c154b229b0246aa980fb'});
-
-		client.getEntries({content_type: 'intro'}).then(function(entry) {
-			console.log(entry.items[0].fields.title);
-			console.log(entry.items[0].fields.ingress);
-		});
-	}
-	*/
-
-	var scrollButton = document.querySelector('a.scroll');
+	let scrollButton = document.querySelector('a.scroll');
 	scrollButton.addEventListener('click', function() {
 		window.scroll(0, Math.max(document.documentElement.clientHeight, window.innerHeight || 0));
 	}, false);
@@ -20,8 +9,8 @@
 /*
 Kiinto parallax -->
 */
-	var cssEngine = ( function ( ) {
-		var navUA = navigator.userAgent.toLowerCase();
+	let cssEngine = ( function ( ) {
+		let navUA = navigator.userAgent.toLowerCase();
 		if ( navUA.indexOf('webkit') != -1 ) { return 'webkit'; }
 		else if ( navUA.indexOf('safari') != -1 ) { return 'webkit'; }
 		else if ( navUA.indexOf('opera') != -1) { return 'O'; }
@@ -32,15 +21,17 @@ Kiinto parallax -->
 		else { return '';}
 		})();
 
-	var initParallax = function() {
-		var parallaxElem = document.querySelectorAll("DIV.article-container, .intro");
-		var scrollPos = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
-		for (var i = 0, j = parallaxElem.length; i < j; i++) {
+	let initParallax = function() {
+		let parallaxElem = document.querySelectorAll('*[data-fpParallax="true"]');
+		let scrollPos = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+		for (let i = 0, j = parallaxElem.length; i < j; i++) {
 			parallaxElem[i].parallaxBottom = parallaxElem[i].getBoundingClientRect().bottom + scrollPos;
 			parallaxElem[i].parallaxTop = parallaxElem[i].getBoundingClientRect().top + scrollPos;
 			parallaxElem[i].parallaxHeight = parallaxElem[i].getBoundingClientRect().height;
 			parallaxElem[i].parallaxTopOffset = (parallaxElem[i].parallaxHeight - window.innerHeight);
 			parallaxElem[i].contentContainer = parallaxElem[i].querySelector('.article-content');
+			parallaxElem[i].parallaxStrength = parallaxElem[i].getAttribute('data-fpParallaxStrength');
+			parallaxElem[i].parallaxRotateMax = parallaxElem[i].getAttribute('data-fpParallaxRotateMax');
 		}
 
 		function checkScrollPos() {
@@ -48,15 +39,16 @@ Kiinto parallax -->
 			requestAnimationFrame(function() {
 				let y = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
 				let parallaxAmount = [];
-				for (var i = 0, j = parallaxElem.length; i < j; i++) {
+				for (let i = 0, j = parallaxElem.length; i < j; i++) {
 					if (parallaxElem[i].parallaxBottom < y + windowHeight && parallaxElem[i].parallaxBottom > y) {
-						parallaxAmount[i] = (y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) - ((y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset)) * 0.6);
+						parallaxAmount[i] = ((100 / windowHeight) * (y - parallaxElem[i].parallaxTop - (parallaxElem[i].parallaxTopOffset))).toFixed(2);
 					} else {
 						parallaxAmount[i] = 0;
 					}
-					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${parallaxAmount[i].toFixed(2)}px, 0) perspective(${windowHeight*2}px) rotateX(${-1*parallaxAmount[i]/10}deg)`;
+					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${parallaxAmount[i]*parallaxElem[i].parallaxStrength}px, 0) perspective(${windowHeight*2}px) rotateX(${(-1*parallaxAmount[i]*(parallaxElem[i].parallaxRotateMax / 100)).toFixed(2)}deg)`;
 					if (parallaxElem[i].contentContainer) {
-						parallaxElem[i].contentContainer.style.opacity = (1 - parallaxAmount[i] / windowHeight).toFixed(2);
+//					console.log(parallaxAmount[i])
+						parallaxElem[i].contentContainer.style.opacity = (1-Math.abs(parallaxAmount[i])/100).toFixed(2);
 					}
 				}
 			});
@@ -71,22 +63,22 @@ Kiinto parallax -->
 */
 
 function isElementInViewport() {
-	var rect = this.getBoundingClientRect();
+	let rect = this.getBoundingClientRect();
 	return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
 }
 
 (function() {
-	var animateElements = document.querySelectorAll('.animate-on-screen');
-	for (var i = 0, j = animateElements.length; i < j; i++) {
-		var el = animateElements[i];
+	let animateElements = document.querySelectorAll('.animate-on-screen');
+	for (let i = 0, j = animateElements.length; i < j; i++) {
+		let el = animateElements[i];
 		el.onScreen = isElementInViewport.bind(el);
 	}
 })();
 
 addAnimations = function() {
-	var animateElements = document.querySelectorAll('.animate-on-screen');
-	for (var i = 0, j = animateElements.length; i < j; i++) {
-		var el = animateElements[i];
+	let animateElements = document.querySelectorAll('.animate-on-screen');
+	for (let i = 0, j = animateElements.length; i < j; i++) {
+		let el = animateElements[i];
 		if (el.onScreen()) {
 			el.classList.add('inViewPort');
 		} else {
@@ -100,3 +92,7 @@ window.addEventListener('scroll', addAnimations, false);
 window.addEventListener('DOMContentLoaded', addAnimations, false);
 
 })();
+
+var easeInOut = function (t) {
+	return (t -= 0.5) < 0 ? (0.02 + 0.01 / t) * Math.sin(50 * t) : (0.02 - 0.01 / t) * Math.sin(50 * t) + 1;
+};
