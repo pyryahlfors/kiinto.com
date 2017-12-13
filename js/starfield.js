@@ -53,9 +53,10 @@ let starfield = {
 
     var updateHeading = function(e){
       if(!e) e = window.event;
-
-      this.settings.cx = (e.clientX - this.canvas.width / 2);
-      this.settings.cy = (e.clientY + Math.max(document.documentElement.scrollTop, document.body.scrollTop) - this.canvas.height / 2);
+	  if(e.clientY < (window.innerHeight || document.documentElement.clientHeight)) {
+	      this.settings.cx = (e.clientX - this.canvas.width / 2);
+	      this.settings.cy = (e.clientY + Math.max(document.documentElement.scrollTop, document.body.scrollTop) - this.canvas.height / 2);
+	  }
     };
     // mouse position to head towards
 
