@@ -23,7 +23,6 @@ body {
 	overflow-y: auto;
 	position: relative;
 	-webkit-scroll-behavior: smooth;
-	-webkit-scroll-snap-type: proximity;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
 	scroll-snap-type: proximity;
@@ -165,6 +164,7 @@ h1 {
 	min-height: 100vh;
 	position: relative;
 	width: 100%;
+	background: rgb(222,222,222);
 }
 .hero-container .button {
 	position: absolute;
