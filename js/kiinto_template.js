@@ -1,17 +1,25 @@
 /*jshint esversion: 6 */
 
 fpLayout = {
-	set: function(data, json) {
+	set: function(data, json, clear) {
 		'use strict';
-
-		data = this.attachJSON(data, json);
-		data = this.nestedTemplates(data);
+		data = this.attachJSON(data, json, clear);
+		data = this.nestedTemplates(data, clear);
 		data = this.removeEmpty(data);
 		return data;
 		},
 
-	attachJSON: function(data, json) {
+	attachJSON: function(data, json, clear) {
 		if(!json) return data;
+		// Clear placeholders
+		if(clear){
+			let arr = [];
+			let patt= /{(.*?)}([\s\S]*?){\/(.*?)}/gm;
+			let fractions = {};
+			while((arr = patt.exec(data)) !== null){
+				data = data.replace(arr[2], '');
+				}
+			}
 		for(let i in json) {
 			let patt=new RegExp('{'+i+'}','gm');
 			if(data.match(patt) !== null) {

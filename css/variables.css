@@ -1,15 +1,31 @@
 :root {
-  --color-black: #000;
-  --color-black-alpha: rgba(0,0,0,.8);
-  --color-dark-gray-alpha: rgba(0,0,0,.3);
-  --color-light-gray: #eee;
-  --color-light-gray-alpha: rgba(128, 128, 128, .5);
-  --color-white: #fff;
-  --color-white-alpha: rgba(255,255,255,.8);
-  --color-lime: #cf0;
-  --color-cyan: #0cf;
-  --color-pastel-green : #0fc;
+	--color-black: #000;
+	--color-black-alpha: rgba(0,0,0,.8);
+	--color-dark-gray-alpha: rgba(0,0,0,.3);
+	--color-light-gray: #eee;
+	--color-light-gray-alpha: rgba(128, 128, 128, .5);
+	--color-white: #fff;
+	--color-white-alpha: rgba(255,255,255,.8);
+	--color-lime: #cf0;
+	--color-cyan: #0cf;
+	--color-pastel-green : #0fc;
 
-  --font-size-base : 0;
-  --font-size-heading-1 : 0;
+	--font-size-base : .81rem;			/* 13px */
+	--font-size-bodytext : 1.234rem;	/* 16px */
+	--font-size-heading-1 : 4.627rem;	/* 60px */
+	--font-size-heading-2 : 3rem;		/* 48px	*/
+
+/*
+	.81rem; //13px
+	3rem; //48px
+	2.25rem; //36px
+	1.5rem; //24px
+*/
+}
+
+@media (max-width: 480px) {
+	:root {
+		--font-size-heading-1 : 2.25rem;
+		--font-size-heading-2 : 1.75rem;
+	}
 }
