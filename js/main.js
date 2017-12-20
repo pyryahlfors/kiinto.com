@@ -53,8 +53,16 @@ Kiinto parallax -->
 				}
 			});
 		}
-		scrollIntervalID = setInterval(checkScrollPos, 10);
+		if(window.fpParallaxInterval) {
+			console.log('meh');
+			clearInterval(window.fpParallaxInterval);
+		}
+		window.fpParallaxInterval = setInterval(checkScrollPos, 10);
 	};
+
+	document.addEventListener('contentfulFetchDone', function(){
+		initParallax();
+	}, false);
 
 	window.addEventListener('DOMContentLoaded', initParallax, false);
 	window.addEventListener('resize', initParallax, false);
@@ -90,7 +98,6 @@ addAnimations = function() {
 //document.querySelector('.snap-container').addEventListener('scroll', addAnimations, false);
 window.addEventListener('scroll', addAnimations, false);
 window.addEventListener('DOMContentLoaded', addAnimations, false);
-
 })();
 
 var easeInOut = function (t) {

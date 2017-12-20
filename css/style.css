@@ -113,6 +113,12 @@ a:link, a:visited {
 	pointer-events: none;
 }
 
+.outro .logo-container {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	align-items: center;
+}
 /* <-- Intro */
 .intro, .outro, .article-container {
 	backface-visibility: hidden;
@@ -204,6 +210,9 @@ a:link, a:visited {
 	display: inline-block;
 }
 
+.intro p {
+	white-space: pre-line;
+}
 .intro .button {
 	margin: 2rem auto 2rem;
 }
@@ -251,6 +260,7 @@ a.scroll:hover {
 	font-size: var(--font-size-bodytext);
 	line-height: 1.4rem;
 	font-weight: 100;
+	white-space: pre-line;
 }
 
 .project-container .project-info {
@@ -408,4 +418,12 @@ span.arrow span:last-of-type {
 .article-title span {
 	color: var(--color-black-alpha);
 	font-weight: 900;
+}
+
+
+/*
+Kiintopiste template engine
+*/
+span[data-fplFragment] {
+	display: none;
 }

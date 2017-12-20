@@ -6,6 +6,7 @@ fpLayout = {
 		data = this.attachJSON(data, json, clear);
 		data = this.nestedTemplates(data, clear);
 		data = this.removeEmpty(data);
+		data = this.removeCommentTags(data);
 		return data;
 		},
 
@@ -29,14 +30,19 @@ fpLayout = {
 		return data;
 		},
 
-	getFractions: function(data){
+	getFractions: function(data, byName){
 		'use strict';
 
 		let patt= /{fraction:(.*?)}([\s\S]*?){\/fraction}/gm;
 		let arr = [];
 		let fractions = {};
 		while((arr = patt.exec(data)) !== null){
-			fractions[arr[1]] = arr[2];
+			if(byName && arr[1] === byName) {
+				return arr[2];
+				}
+			else{
+				fractions[arr[1]] = arr[2];
+				}
 			}
 		return fractions;
 		},
@@ -72,5 +78,11 @@ fpLayout = {
 			return data.replace(ptrn, '');
 			}
 		return data;
+		},
+
+	removeCommentTags: function(data) {
+//		return data.replace('<!--[\\s\\S]*?(?:-->)?');
+		data = data.replace(/<!--/gm, "<");
+		return data.replace(/-->/gm, ">");
 		}
 	};
