@@ -43,7 +43,7 @@
 				  </div>
 				</div>
 				<div class="hero-container">
-					${(tmplData.images && tmplData.images[0]) ? '<img src="http:'+tmplData.images[0].fields.file.url+'" alt="" class="hero" />' : ''}
+					${(tmplData.images && tmplData.images[0]) ? '<img src="https:'+tmplData.images[0].fields.file.url+'" alt="" class="hero" />' : ''}
 				  	${tmplData.link ? '<a class="button" href="'+tmplData.link+'">LAUNCH</a>' : ''}
 				</div>
 			  </div>
@@ -87,7 +87,4 @@
 			document.dispatchEvent(event);
 			});
 		}
-	else {
-		updateHTML('*[data-fplFragment="intro"]', {});
-	}
 	})();
