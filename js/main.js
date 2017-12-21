@@ -1,7 +1,6 @@
 /*jshint esversion: 6 */
 
 (function() {
-
 /*
 Kiinto parallax -->
 */
@@ -43,7 +42,6 @@ Kiinto parallax -->
 					}
 					parallaxElem[i].style[cssEngine + 'Transform'] = `translate3d(0, ${parallaxAmount[i]*parallaxElem[i].parallaxStrength}px, 0) perspective(${windowHeight*2}px) rotateX(${(-1*parallaxAmount[i]*(parallaxElem[i].parallaxRotateMax / 100)).toFixed(2)}deg)`;
 					if (parallaxElem[i].contentContainer) {
-//					console.log(parallaxAmount[i])
 						parallaxElem[i].contentContainer.style.opacity = (1-Math.abs(parallaxAmount[i])/100).toFixed(2);
 					}
 				}
@@ -57,6 +55,10 @@ Kiinto parallax -->
 
 	document.addEventListener('contentfulFetchDone', function(){
 		initParallax();
+		let scrollButton = document.querySelector('a.scroll');
+		scrollButton.addEventListener('click', function() {
+			window.scroll(0, Math.max(document.documentElement.clientHeight, window.innerHeight || 0));
+		}, false);
 	}, false);
 
 	window.addEventListener('DOMContentLoaded', initParallax, false);
@@ -93,7 +95,3 @@ addAnimations = function() {
 window.addEventListener('scroll', addAnimations, false);
 window.addEventListener('DOMContentLoaded', addAnimations, false);
 })();
-
-var easeInOut = function (t) {
-	return (t -= 0.5) < 0 ? (0.02 + 0.01 / t) * Math.sin(50 * t) : (0.02 - 0.01 / t) * Math.sin(50 * t) + 1;
-};

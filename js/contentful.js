@@ -23,7 +23,6 @@
 		return `
 			<div class="article-container no-padding project" data-fpParallax="true" data-fpParallaxStrength="0" data-fpParallaxRotateMax="20">
 			  <div class="article-content">
-			  	${tmplData.isFirst ? '<a name="projects"></a>' : ''}
 				<div class="project-container">
 				  <div class="project-info">
 					<div class="article-title">
@@ -75,6 +74,11 @@
 			let tempNode = document.createElement("DIV");
 			tempNode.innerHTML = temp;
 			docFrag.appendChild(tempNode);
+
+			let anchor = document.createElement("A");
+			anchor.setAttribute('name', 'projects');
+			tempNode.insertBefore(anchor, tempNode.firstChild);
+
 			projectsPlaceholder.parentNode.insertBefore(docFrag, projectsPlaceholder.nextSibling);
 			projectsPlaceholder.parentNode.removeChild(projectsPlaceholder);
 
