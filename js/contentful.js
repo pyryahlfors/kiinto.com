@@ -71,7 +71,7 @@
 				count++;
 				});
 			docFrag = document.createDocumentFragment();
-			let tempNode = document.createElement("DIV");
+			let tempNode = document.createElement("span");
 			tempNode.innerHTML = temp;
 			docFrag.appendChild(tempNode);
 

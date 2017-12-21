@@ -119,6 +119,14 @@ a:link, a:visited {
 	width: 100%;
 	align-items: center;
 }
+
+.outro img.kiinto {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate3d(-50%, -50%, 0);
+	width: 200px;
+}
 /* <-- Intro */
 .intro, .outro, .article-container {
 	backface-visibility: hidden;
@@ -307,10 +315,12 @@ h2 {
 header {
 	padding: 1rem;
 	position: fixed;
-	text-align: right;
 	top: 0;
 	width: 100%;
-	z-index: 999;
+	z-index: 9999;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
 }
 
 header span {
@@ -320,8 +330,8 @@ header span {
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	position: relative;
-
 }
+
 
 
 header span::before {
