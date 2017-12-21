@@ -55,10 +55,6 @@ Kiinto parallax -->
 
 	document.addEventListener('contentfulFetchDone', function(){
 		initParallax();
-		let scrollButton = document.querySelector('a.scroll');
-		scrollButton.addEventListener('click', function() {
-			window.scroll(0, Math.max(document.documentElement.clientHeight, window.innerHeight || 0));
-		}, false);
 	}, false);
 
 	window.addEventListener('DOMContentLoaded', initParallax, false);
