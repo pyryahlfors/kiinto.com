@@ -120,6 +120,18 @@ a:link, a:visited {
 	align-items: center;
 }
 
+.outro .logo-container a {
+	height:20px;
+}
+
+.outro .logo-container a:first-of-type {
+	margin: 0 10px 0 0
+}
+
+.outro .logo-container a img {
+	max-height:20px;
+	height:100%;
+}
 .outro .kiinto {
 	position: absolute;
 	top: 50%;
@@ -265,7 +277,7 @@ a.scroll:hover {
 
 .intro-text {
 	font-size: var(--font-size-bodytext);
-	line-height: 1.4rem;
+	line-height: 1.8rem;
 	font-weight: 100;
 	white-space: pre-line;
 }
@@ -355,7 +367,7 @@ hr {
 	font-variant: small-caps;
 	font-weight: bold;
 	position: relative;
-	margin: 0 10px 5px 0;
+	margin: 0 10px 0 0;
 	text-transform: lowercase;
 }
 
