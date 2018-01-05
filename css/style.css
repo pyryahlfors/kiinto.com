@@ -27,7 +27,6 @@ body {
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
 	scroll-snap-type: proximity;
-	transform: translate3d(0,0,0);
 	width: 100vw;
 
 }
@@ -321,17 +320,31 @@ h2 {
 		width: 100%;
 		max-width: none;
 	}
+
+	header div:first-of-type {
+		display: none;
+	}
 }
 
 header {
-	padding: 1rem;
 	position: fixed;
-	text-align: right;
-	top: 0;
+	padding: 1rem;
 	width: 100%;
 	z-index: 999;
+	background: var(--color-black-alpha);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: right;
 }
 
+header > div {
+	width: 33.3%;
+}
+header div:nth-of-type(2){
+	text-align: center;
+	font-size: 0;
+}
 header span {
 	font-size: 2rem;
 	color: var(--color-white-alpha);
