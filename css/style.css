@@ -242,6 +242,42 @@ a:hover, .a:hover {
 	color: var(--color-white-alpha);
 }
 
+header {
+	padding: 1rem;
+	width: 100%;
+	z-index: 999;
+	background: var(--color-black-alpha-light);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	text-align: right;
+	position: absolute;
+	top: 0;
+}
+
+header > div {
+	width: 33.3%;
+}
+header div:nth-of-type(2){
+	text-align: center;
+	font-size: 0;
+}
+header span {
+	font-size: 2rem;
+	color: var(--color-white-alpha);
+	position: relative;
+}
+
+header span::before {
+	top: 6px;
+	position: relative;
+}
+
+header img {
+	height: 2rem;
+}
+
+
 a.header-button:hover {
 	background: transparent;}
 
@@ -324,41 +360,6 @@ h2 {
 	header div:first-of-type {
 		display: none;
 	}
-}
-
-header {
-	padding: 1rem;
-	width: 100%;
-	z-index: 999;
-	background: var(--color-black-alpha);
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	text-align: right;
-}
-
-header > div {
-	width: 33.3%;
-}
-header div:nth-of-type(2){
-	text-align: center;
-	font-size: 0;
-}
-header span {
-	font-size: 2rem;
-	color: var(--color-white-alpha);
-	position: relative;
-}
-
-header img {
-	height: 2rem;
-}
-
-
-
-header span::before {
-	top: 6px;
-	position: relative;
 }
 
 hr {
