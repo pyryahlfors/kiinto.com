@@ -20,15 +20,15 @@ body {
 	font-size: var(--font-size-bodytext);
 	height: 100vh;
 	margin: 0;
-	overflow: hidden;
-	overflow-y: auto;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	position: relative;
 	-webkit-scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
 	scroll-snap-type: proximity;
 	width: 100vw;
-	transform: translate3d(0,0,0);
+	transform: translateZ(0px); /* Fix paint issues in Edge && Safari H/W acceleration */
 }
 
 
@@ -37,20 +37,6 @@ a:link, a:visited {
 	text-decoration: inherit;
 }
 
-
-.snap-container {
-	overflow-x: hidden;
-	overflow-y: auto;
-	position: relative;
-	-webkit-scroll-behavior: smooth;
-	-webkit-scroll-snap-type: proximity;
-	-webkit-overflow-scrolling: touch;
-	scroll-behavior: smooth;
-	scroll-snap-type: proximity;
-	width: 100vw;
-	height: 100vh;
-	transform: translate3d(0,0,0);
-}
 
 /* Intro, Outro --> */
 .intro, .outro {
@@ -63,8 +49,9 @@ a:link, a:visited {
 	position: relative;
 	z-index: 1;
 	object-fit: cover;
-	-webkit-scroll-snap-coordinate: 0% 0%;
-	scroll-snap-coordinate: 0% 0%;
+	-webkit-scroll-snap-coordinate: 50% 0%;
+	scroll-snap-align: center;
+	scroll-snap-coordinate: 50% 0%;
 	background: var(--color-black);
 }
 
@@ -151,10 +138,10 @@ a:link, a:visited {
 	z-index: 2;
 	color: var(--color-black);
 	overflow: hidden;
-	-webkit-scroll-snap-coordinate: 0% 0%;
-	scroll-snap-coordinate: 0% 0%;
+	-webkit-scroll-snap-coordinate: 50% 0%;
+	scroll-snap-coordinate: 50% 0%;
 	transform-origin: 50% 50%;
-
+	scroll-snap-align: center;
 }
 
 .article-container.no-padding {
@@ -243,31 +230,22 @@ a:hover, .a:hover {
 }
 
 header {
-	padding: 1rem;
-	width: 100%;
 	z-index: 999;
-/*
-	background: var(--color-black-alpha-light);
-*/
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-end;
 	align-items: center;
 	text-align: right;
 	position: absolute;
-	top: 0;
+	top: 1rem;
+	left: 2rem;
+	right: 2rem;
 }
 
-header > div {
-	width: 33.3%;
-}
-header div:nth-of-type(2){
-	text-align: center;
-	font-size: 0;
-}
 header span {
 	font-size: 2rem;
 	color: var(--color-white-alpha);
 	position: relative;
+	margin: 0 10px 0 0;
 }
 
 header span::before {
@@ -309,6 +287,7 @@ a.scroll:hover {
 	align-content: flex-start;
 	display: flex;
 	justify-content: flex-start;
+	min-width: 320px;
 	padding: 1rem 1rem 4vw;
 }
 

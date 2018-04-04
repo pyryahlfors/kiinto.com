@@ -67,15 +67,15 @@ let starfield = {
     },
 
 	isElementInViewport: function() {
-		var rect = this.canvas.getBoundingClientRect();
+		const rect = this.canvas.getBoundingClientRect();
 		return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
 	},
 
     animate: function(){
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.ctx.fillStyle = "rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.1)";
+        this.ctx.fillStyle = `rgba(${this.colorCycleTable[Math.round(this.colorCycle)]}, .1)`;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        for (var i = 0; i < this.settings.density; i++) {
+        for (let i = 0; i < this.settings.density; i++) {
             if (Math.random() > 0.97) {
                 new particle({
                     color: this.colorCycleTable[Math.round(this.colorCycle)],
@@ -84,7 +84,7 @@ let starfield = {
             }
         }
 
-        for (var j in this.particles) {
+        for (let j in this.particles) {
             this.particles[j].draw({mother: this});
         }
 
@@ -137,7 +137,7 @@ class particle {
 
       params.mother.ctx.beginPath();
       params.mother.ctx.lineWidth = 2;
-      params.mother.ctx.strokeStyle = "rgba("+this.color+", "+this.alpha+")";
+      params.mother.ctx.strokeStyle = `rgba(${this.color+','+this.alpha})`;
       params.mother.ctx.moveTo(params.mother.settings.cx + this.xx, params.mother.settings.cy + this.yy);
       params.mother.ctx.lineTo(params.mother.settings.cx + this.x, params.mother.settings.cy + this.y);
       params.mother.ctx.stroke();
