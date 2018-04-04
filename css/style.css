@@ -12,7 +12,6 @@ html {
 }
 
 body {
-	backface-visibility: hidden;
 	background: var(--color-black);
 	background-size: cover;
 	color: var(--color-light-gray);
