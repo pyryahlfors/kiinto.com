@@ -12,6 +12,7 @@ html {
 }
 
 body {
+	backface-visibility: hidden;
 	background: var(--color-black);
 	background-size: cover;
 	color: var(--color-light-gray);
@@ -25,9 +26,8 @@ body {
 	-webkit-scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
-	scroll-snap-type: mandatory;
+	scroll-snap-type: proximity;
 	width: 100vw;
-	transform: translate3d(0,0,0); /* Fix paint issues in Edge && Safari H/W acceleration */
 }
 
 
