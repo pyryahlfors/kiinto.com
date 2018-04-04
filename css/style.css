@@ -21,14 +21,14 @@ body {
 	height: 100vh;
 	margin: 0;
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	position: relative;
 	-webkit-scroll-behavior: smooth;
 	-webkit-overflow-scrolling: touch;
 	scroll-behavior: smooth;
-	scroll-snap-type: proximity;
+	scroll-snap-type: mandatory;
 	width: 100vw;
-	transform: translateZ(0px); /* Fix paint issues in Edge && Safari H/W acceleration */
+	transform: translate3d(0,0,0); /* Fix paint issues in Edge && Safari H/W acceleration */
 }
 
 
