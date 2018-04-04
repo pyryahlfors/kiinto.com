@@ -54,7 +54,7 @@ Kiinto parallax -->
 	};
 
 	document.addEventListener('contentfulFetchDone', function(){
-		initParallax();
+//		initParallax();
 	}, false);
 
 	window.addEventListener('DOMContentLoaded', initParallax, false);
