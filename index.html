@@ -6,9 +6,45 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
 	<meta name="Description" content="My name is Pyry Ahlfors and I am an UX Designer.">
-	<meta name="google-site-verification" content="vVz4Ht2sx9wjWCrkrkAPWCCXUV2bA9K5MdFv_oSAFME" />
 	<title>Kiinto.com - Pyry Ahlfors</title>
 	<link rel="stylesheet" href="css/style.css" />
+
+	<!--style>
+	.parallax-container {
+		height: 100vh;
+		width: 100vw;
+		position: relative;
+		overflow: hidden;
+		z-index: -1;
+		transform: translate3d(0,0,0);
+	}
+
+	.parallax-container div {
+		position: absolute;
+		height: 100vh;
+		width: 100%;
+		}
+
+	.parallax-container div img {
+		width: 140%;
+		object-fit: cover
+		}
+
+	body.portrait .parallax-container div img {
+		height: 200%;
+	}
+
+	.animated-clouds {
+	  animation: 300s scroll infinite linear;
+	  transition: transform 1000ms;
+	}
+
+	@keyframes scroll{
+	  100%{transform: translateX(100%);}
+	}
+
+
+</style-->
 </head>
 
 <body>
@@ -18,11 +54,19 @@
 		<a class="header-button" href="http://www.linkedin.com/in/pyryahlfors"><span class="kiinto-linkedin"></span></a>
 	</header>
 
-	<div class="intro" data-fpParallax="true" data-fpParallaxStrength="3" data-fpParallaxRotateMax="0">
+	<div class="intro" data-fpParallax="true" data-fpParallaxInit="exit" data-fpParallaxStrength="3" data-fpParallaxRotateMax="0">
 		<article class="animate-on-screen animate--fadeInUp" data-fplFragment="intro"></article>
 	</div>
 
 	<span data-fplFragment="projects"></span>
+
+	<!--div class="parallax-container">
+		<div><img src="images/temp/granparadiso_back.png" alt="" /></div>
+		<div data-fpParallax="true" data-fpParallaxInit="enter" data-fpParallaxStrength="-1.0"><img src="images/temp/granparadiso_3.png" alt="" /></div>
+		<div data-fpParallax="true" data-fpParallaxInit="enter" data-fpParallaxStrength="-1.5"><img src="images/temp/granparadiso_2.png" alt="" /></div>
+		<div data-fpParallax="true" data-fpParallaxInit="enter" data-fpParallaxStrength="-2.0"><img src="images/temp/granparadiso_1.png" alt="" /></div>
+	</div-->
+
 
 	<div class="outro" data-fpParallax="true">
 		<div class="bgr"></div>

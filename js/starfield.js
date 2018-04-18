@@ -2,7 +2,7 @@
 
 let starfield = {
     settings : {
-        density: 50,
+        density: 25,
         startingX: 0,
         startingY: 0,
         gravity: 0,
@@ -72,6 +72,9 @@ let starfield = {
 	},
 
     animate: function(){
+		let windowHeight = window.innerHeight;
+		let y = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.ctx.fillStyle = `rgba(${this.colorCycleTable[Math.round(this.colorCycle)]}, .1)`;
         this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -90,7 +93,13 @@ let starfield = {
 
         this.colorCycle+=0.5;
         if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
-    	requestAnimationFrame(this.animate.bind(this));
+
+		if(y<windowHeight) {
+    		requestAnimationFrame(this.animate.bind(this));
+		}
+		else {
+			setTimeout(this.animate.bind(this), 300)
+		}
     }
 };
 

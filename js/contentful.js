@@ -21,7 +21,7 @@
 
 	let projectTemplate = (tmplData) => {
 		return `
-			<div class="article-container no-padding project" data-fpParallax="true" data-fpParallaxStrength="0" data-fpParallaxRotateMax="20">
+			<div class="article-container no-padding project" data-fpParallax="true" data-fpParallaxInit="exit" data-fpParallaxStrength="0" data-fpParallaxRotateMax="20">
 			  <div class="article-content">
 				<div class="project-container">
 				  <div class="project-info">

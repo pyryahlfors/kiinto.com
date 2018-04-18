@@ -1,7 +1,8 @@
 @import "kiinto.css";
 @import "animations.css";
 @import "variables.css";
-@import "https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800";
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono');
 
 *, *::before, *::after {
 	box-sizing: border-box;
@@ -12,7 +13,6 @@ html {
 }
 
 body {
-	backface-visibility: hidden;
 	background: var(--color-black);
 	background-size: cover;
 	color: var(--color-light-gray);
@@ -23,11 +23,8 @@ body {
 	overflow-x: hidden;
 	overflow-y: auto;
 	position: relative;
-	-webkit-scroll-behavior: smooth;
-	-webkit-overflow-scrolling: touch;
-	scroll-behavior: smooth;
-	scroll-snap-type: proximity;
 	width: 100vw;
+	transform: translate3d(0,0,0);
 }
 
 
@@ -66,6 +63,8 @@ a:link, a:visited {
 .intro P {
 	margin: 0 0 .5rem;
 	line-height: 1.5rem;
+	font-family: 'IBM Plex Mono', monospace;
+
 }
 
 .intro CANVAS {
@@ -127,6 +126,7 @@ a:link, a:visited {
 	backface-visibility: hidden;
 	background: var(--color-black);
 }
+
 .article-container {
 	padding: 1rem 1rem 4vw;
 	position: relative;
@@ -353,11 +353,10 @@ hr {
 .tags span {
 	color: var(--color-black-alpha);
 	display: inline-block;
-	font-variant: small-caps;
-	font-weight: bold;
 	position: relative;
 	margin: 0 10px 0 0;
 	text-transform: lowercase;
+	font-family: 'IBM Plex Mono', monospace;
 }
 
 span.arrow {
@@ -439,4 +438,9 @@ span[data-fplFragment] {
 
 a[name="projects"] {
 	font-size: 0;
+}
+
+
+*[data-fpParallax="true"] {
+	will-change: transform;
 }
