@@ -1,7 +1,7 @@
 @import "kiinto.css";
 @import "animations.css";
 @import "variables.css";
-@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800');
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,800,900');
 @import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono');
 
 *, *::before, *::after {
