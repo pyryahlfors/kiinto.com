@@ -25,7 +25,7 @@
 		}
 	})();
 
-	let initParallax = function() {
+	var initParallax = () => {
 		let elAspect = 1445/1024; // size of parallax images
 
 		if ((window.innerWidth / window.innerHeight) < elAspect ) {
@@ -50,7 +50,7 @@
 			parallaxElem[i].parallaxInit = parallaxElem[i].getAttribute('data-fpParallaxInit');
 		}
 
-		function checkScrollPos() {
+		var checkScrollPos = () => {
 			let windowHeight = window.innerHeight;
 
 			//			requestAnimationFrame(function() {
@@ -99,7 +99,9 @@
 	function isElementInViewport() {
 		let rect = this.getBoundingClientRect();
 		return rect.bottom > 0 && rect.right > 0 && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.top < (window.innerHeight || document.documentElement.clientHeight);
-	}(function() {
+	}
+
+	(function() {
 		let animateElements = document.querySelectorAll('.animate-on-screen');
 		for (let i = 0, j = animateElements.length; i < j; i++) {
 			let el = animateElements[i];
@@ -107,7 +109,7 @@
 		}
 	})();
 
-	addAnimations = function() {
+	var addAnimations = () => {
 		let animateElements = document.querySelectorAll('.animate-on-screen');
 		for (let i = 0, j = animateElements.length; i < j; i++) {
 			let el = animateElements[i];
@@ -121,4 +123,30 @@
 
 	window.addEventListener('scroll', addAnimations, false);
 	window.addEventListener('DOMContentLoaded', addAnimations, false);
+
+// WP8 Tilt
+
+	var wp8tilt = ( params ) =>  {
+		let elem = params.el;
+
+		elem.elemBounding = params.container.getBoundingClientRect();
+		elem.perspective = params.container.getBoundingClientRect().height;
+
+		elem.width = elem.elemBounding.width;
+		elem.height = elem.elemBounding.height;
+		elem.top = elem.elemBounding.top;
+		elem.left = elem.elemBounding.left;
+
+		params.container.addEventListener('mousemove', function(e){
+			e.preventDefault();
+			let rotaX = (20/elem.width) * (elem.width/2 -(e.pageX -elem.left));
+			let rotaY = (20/elem.height) * (elem.height/2 -(e.pageY -elem.top));
+			elem.style.cssText = `transition-duration: 0ms; transform: perspective(${elem.perspective}px) rotateY(${-1*rotaX}deg) rotateX(${rotaY}deg)`;
+			}, false);
+		};
+
+	let container = document.querySelector('.intro');
+	wp8tilt({'container': container, 'el': container.querySelector('ARTICLE')});
+
+
 })();

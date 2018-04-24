@@ -25,6 +25,7 @@ body {
 	position: relative;
 	width: 100vw;
 	transform: translate3d(0,0,0);
+	scroll-behavior: smooth;
 }
 
 
@@ -282,8 +283,10 @@ a.scroll:hover {
 	align-content: flex-start;
 	display: flex;
 	justify-content: flex-start;
-	min-width: 320px;
+	width: 20%;
 	padding: 1rem 1rem 4vw;
+	flex-shrink: 0;
+	min-width: 240px;
 }
 
 .intro-text {
@@ -335,6 +338,10 @@ h2 {
 
 	header div:first-of-type {
 		display: none;
+	}
+
+	.project-container {
+		min-width: 320px;
 	}
 }
 
@@ -432,15 +439,56 @@ span.arrow span:last-of-type {
 /*
 Kiintopiste template engine
 */
-span[data-fplFragment] {
-	display: none;
+span[data-fplFragment] {display: none;}
+a[name="projects"] {font-size: 0;}
+*[data-fpParallax="true"] {will-change: transform;}
+
+.gridcontainer {
+	transform: translate3d(0,0,0);
+    display: grid;
+    width: 100vw;
+    min-height: 100vh;
+    grid-template-columns: repeat(4, 25vw);
+    grid-template-rows: repeat(2, 50vh);
+	grid-auto-columns: 25vw;
+	grid-auto-rows: 50vh;
+    background: url(https://sc5.io/wp-content/uploads/2016/01/contact_hero_use.jpg);
+    background-size: auto auto;
+    background-size: cover;
+	z-index: 2;
 }
 
-a[name="projects"] {
-	font-size: 0;
+
+/* Image parallax */
+.parallax-container {
+	height: 100vh;
+	width: 100vw;
+	position: relative;
+	overflow: hidden;
+	z-index: -1;
+	transform: translate3d(0,0,0);
 }
 
+.parallax-container div {
+	position: absolute;
+	height: 100vh;
+	width: 100%;
+	}
 
-*[data-fpParallax="true"] {
-	will-change: transform;
+.parallax-container div img {
+	width: 140%;
+	object-fit: cover
+	}
+
+body.portrait .parallax-container div img {
+	height: 200%;
+}
+
+.animated-clouds {
+  animation: 300s scroll infinite linear;
+  transition: transform 1000ms;
+}
+
+@keyframes scroll{
+  100%{transform: translateX(100%);}
 }

@@ -37,7 +37,7 @@
 					</p>
 
 					<div class="tags">
-						<span>${tmplData.tags.join(`</span><span>`)}</span>
+						<span>${tmplData.tags.join(`,</span><span>`)}</span>
 					</div>
 				  </div>
 				</div>
