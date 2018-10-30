@@ -121,6 +121,7 @@
 		}
 	};
 
+	window.addEventListener('load', addAnimations, false);
 	window.addEventListener('scroll', addAnimations, false);
 	window.addEventListener('DOMContentLoaded', addAnimations, false);
 
@@ -145,8 +146,10 @@
 			}, false);
 		};
 
-	let container = document.querySelector('.intro');
-	wp8tilt({'container': container, 'el': container.querySelector('ARTICLE')});
+	window.addEventListener('DOMContentLoaded', function(){
+		let container = document.querySelector('.intro');
+		wp8tilt({'container': container, 'el': container.querySelector('ARTICLE')});
+	}, false);
 
 
 })();

@@ -80,8 +80,8 @@ var particles = {
         this.yy = this.y;
         this.color = params.color;
         // Determine original X-axis speed based on setting limitation
-        this.vx = Math.random() * 20 - 10;
-        this.vy = Math.random() * 20 - 10;
+        this.vx = Math.random() * 40 - 20;
+        this.vy = Math.random() * 40 - 20;
 
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
@@ -90,25 +90,29 @@ var particles = {
         this.id = params.mother.particleIndex;
         this.life = 0;
         this.history = [];
-        this.gravity= Math.random()*1 - 0.5;
 		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
+
+        this.gravity= this.randomSeed * (Math.random()*1 - 0.5);
+		this.gravity= Math.random()*1 - 0.5;
+
         this.draw = function(params){
-						let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
+			let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
             this.xs = params.mother.settings.startingX;
             this.ys = params.mother.settings.startingY;
             this.x += randomizeSeed* this.vx;
             this.y += randomizeSeed* this.vy;
             this.gravity=  randomizeSeed * Math.random()*0.5;
+//			this.gravity=  Math.random()*0.5;
 
             // Adjust for gravity
-            this.vy += this.gravity;
+            this.vy *= this.gravity;
 
             this.rgbAlpha = 1-(0.1*this.life);
 
             // Age the particle
             this.life+=0.1;
 
-            this.size = 10 - ((this.life/2 > 10) ? 10 : this.life/2);
+//            this.size = 10 - ((this.life/2 > 10) ? 10 : this.life/2);
 
             if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 100) {
                 delete params.mother.particles[this.id];
@@ -117,14 +121,9 @@ var particles = {
             params.mother.ctx.fillStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
             params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
 
-/*            params.mother.ctx.beginPath();
-            params.mother.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
-            params.mother.ctx.fill();
-            params.mother.ctx.stroke();
-            params.mother.ctx.closePath();
-*/
 
             params.mother.ctx.beginPath();
+
             for(var i=1, j=this.history.length; i<j;i++){
                 this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
                 this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
@@ -133,7 +132,7 @@ var particles = {
 
             }
             params.mother.ctx.stroke();
-            params.mother.ctx.closePath();
+//            params.mother.ctx.closePath();
             this.history.push([this.x, this.y]);
 
             if(this.history.length > 30) {
@@ -150,7 +149,7 @@ var particles = {
             this.ctx.fillStyle = "rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.01)";
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (var i = 0; i < this.settings.density; i++) {
-                if (Math.random() > 0.97) {
+                if (Math.random() > 0.99) {
                     new this.particle({
                         color: this.colorCycleTable[Math.round(this.colorCycle)],
                         mother : this
