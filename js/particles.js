@@ -1,6 +1,6 @@
 var particles = {
     settings : {
-        density: 10,
+        density: 100,
         startingX: 0,
         startingY: 0
         },
@@ -13,6 +13,9 @@ var particles = {
     particleIndex: 0,
 
     init: function(){
+		let nakki = document.createElement('div');
+		nakki.className="intro";
+		document.body.appendChild(nakki);
 // Create color cycle table
         var tempArr = [];
         var colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
@@ -87,14 +90,15 @@ var particles = {
         this.id = params.mother.particleIndex;
         this.life = 0;
         this.history = [];
-        this.gravity= Math.random()*1  -0.5;
-
+        this.gravity= Math.random()*1 - 0.5;
+		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
         this.draw = function(params){
+						let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
             this.xs = params.mother.settings.startingX;
             this.ys = params.mother.settings.startingY;
-            this.x += this.vx;
-            this.y += this.vy;
-            this.gravity= Math.random()*1  -0.5;
+            this.x += randomizeSeed* this.vx;
+            this.y += randomizeSeed* this.vy;
+            this.gravity=  randomizeSeed * Math.random()*0.5;
 
             // Adjust for gravity
             this.vy += this.gravity;
@@ -113,12 +117,12 @@ var particles = {
             params.mother.ctx.fillStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
             params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
 
-            params.mother.ctx.beginPath();
+/*            params.mother.ctx.beginPath();
             params.mother.ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
             params.mother.ctx.fill();
             params.mother.ctx.stroke();
             params.mother.ctx.closePath();
-
+*/
 
             params.mother.ctx.beginPath();
             for(var i=1, j=this.history.length; i<j;i++){
@@ -132,7 +136,7 @@ var particles = {
             params.mother.ctx.closePath();
             this.history.push([this.x, this.y]);
 
-            if(this.history.length > 20) {
+            if(this.history.length > 30) {
                 this.history.splice(0,1);
             }
 
@@ -156,8 +160,11 @@ var particles = {
             for (var i in this.particles) {
                 this.particles[i].draw({mother: this});
             }
-            this.colorCycle+=0.5;
+            this.colorCycle+=1;
             if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
         }.bind(this), 30);
     }
 };
+
+
+particles.init();
