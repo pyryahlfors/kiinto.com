@@ -13,9 +13,6 @@ var particles = {
     particleIndex: 0,
 
     init: function(){
-		let nakki = document.createElement('div');
-		nakki.className="intro";
-		document.body.appendChild(nakki);
 // Create color cycle table
         var tempArr = [];
         var colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
