@@ -58,7 +58,7 @@ var particles = {
         var testTouch = document.createElement("DIV");
         testTouch.setAttribute('ontouchstart', 'return;');
         var isTouchDevice = (typeof testTouch.ontouchstart == 'function' && window.screenX === 0) ? true : false;
-        return (isTouchDevice) ? 'touchstart' : 'mousemove';
+        return (isTouchDevice) ? 'touchmove' : 'mousemove';
         })();
 
     window.addEventListener('resize', updateparticlesSize.bind(this), false);
