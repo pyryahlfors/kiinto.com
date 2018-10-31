@@ -145,13 +145,14 @@
 			return (isTouchDevice) ? 'touchmove' : 'mousemove';
 			})();
 
-
 		params.container.addEventListener(touchEvent, function(e){
 //			e.preventDefault();
-			if(e.touches) e = e.touches[0];
-			let rotaX = (20/elem.width) * (elem.width/2 -(e.pageX -elem.left));
-			let rotaY = (20/elem.height) * (elem.height/2 -(e.pageY -elem.top));
-			elem.style.cssText = `transition-duration: 0ms; transform: perspective(${elem.perspective}px) rotateY(${-1*rotaX}deg) rotateX(${rotaY}deg)`;
+			if(!e.touches) {
+//				e = e.touches[0];
+				let rotaX = (20/elem.width) * (elem.width/2 -(e.pageX -elem.left));
+				let rotaY = (20/elem.height) * (elem.height/2 -(e.pageY -elem.top));
+				elem.style.cssText = `transition-duration: 0ms; transform: perspective(${elem.perspective}px) rotateY(${-1*rotaX}deg) rotateX(${rotaY}deg)`;
+				}
 			}, false);
 		};
 
