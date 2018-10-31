@@ -1,32 +1,34 @@
-var particles = {
+let particles = {
     settings : {
         density: 100,
         startingX: 0,
         startingY: 0
         },
+/*
     colorCycle : 0,
     colorCycleSeed :  [[255,0,0],[255,0,255],[0,0,255],[0,255,255],[0,255,0],[255,255,0],[255,0,0]],
     colorCycleSize : 255,
     colorCycleTable : [],
-
+*/
     particles : {},
     particleIndex: 0,
 
     init: function(){
 // Create color cycle table
-        var tempArr = [];
-        var colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
-        for(var i=1; i<this.colorCycleSeed.length; i++) {
-        	for(var j=0; j<=colorWidth; j++) {
-        		var rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
-        		var gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
-        		var br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
+/*
+        let tempArr = [];
+        let colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
+        for(let i=1; i<this.colorCycleSeed.length; i++) {
+        	for(let j=0; j<=colorWidth; j++) {
+        		let rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
+        		let gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
+        		let br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
                 tempArr.push([rr, gr, br]);
         		}
         	}
         this.colorCycleTable = tempArr;
 
-
+*/
 // Create canvas
     this.canvas = document.createElement("canvas");
     document.querySelector('.intro').appendChild(this.canvas);
@@ -39,13 +41,13 @@ var particles = {
     this.settings.startingX = this.canvas.width / 2;
     this.settings.startingY = this.canvas.height / 2;
 
-    var updateparticlesSize = function(){
+    let updateparticlesSize = function(){
         this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         this.canvas.height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     };
 
-    var updateCenterPoint = function(evt){
-        var temp = evt;
+    let updateCenterPoint = function(evt){
+        let temp = evt;
         if(evt.touches && evt.touches.length) {
             temp = evt.touches[0];
         }
@@ -55,9 +57,9 @@ var particles = {
     };
 
     this.touchEvent = (function(){
-        var testTouch = document.createElement("DIV");
+        let testTouch = document.createElement("DIV");
         testTouch.setAttribute('ontouchstart', 'return;');
-        var isTouchDevice = (typeof testTouch.ontouchstart == 'function' && window.screenX === 0) ? true : false;
+        let isTouchDevice = (typeof testTouch.ontouchstart == 'function' && window.screenX === 0) ? true : false;
         return (isTouchDevice) ? 'touchmove' : 'mousemove';
         })();
 
@@ -76,6 +78,7 @@ var particles = {
         this.xx = this.x;
         this.yy = this.y;
         this.color = params.color;
+		this.counter = params.counter;
         // Determine original X-axis speed based on setting limitation
         this.vx = Math.random() * 40 - 20;
         this.vy = Math.random() * 40 - 20;
@@ -109,19 +112,15 @@ var particles = {
             // Age the particle
             this.life+=0.1;
 
-//            this.size = 10 - ((this.life/2 > 10) ? 10 : this.life/2);
-
-            if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 100) {
+            if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 200 || this.rgbAlpha < 0) {
                 delete params.mother.particles[this.id];
             }
 
-            params.mother.ctx.fillStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
-            params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
-
-
+//            params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
+			params.mother.ctx.strokeStyle = `hsla(${this.counter}, 100%, 50%, ${this.rgbAlpha})`;
             params.mother.ctx.beginPath();
 
-            for(var i=1, j=this.history.length; i<j;i++){
+            for(let i=1, j=this.history.length; i<j;i++){
                 this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
                 this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
                 params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
@@ -141,23 +140,30 @@ var particles = {
 
 
     animate: function(){
+		let counter = 0;
         setInterval(function() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.fillStyle = "rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.01)";
+            this.ctx.fillStyle = `hsla(${counter}, 100%, 50%, 0.1)`;
+			//"rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.1)";
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            for (var i = 0; i < this.settings.density; i++) {
+            for (let i = 0; i < this.settings.density; i++) {
                 if (Math.random() > 0.99) {
                     new this.particle({
-                        color: this.colorCycleTable[Math.round(this.colorCycle)],
-                        mother : this
+//                        color: this.colorCycleTable[Math.round(this.colorCycle)],
+                        mother : this,
+						counter: counter
                     });
                 }
             }
-            for (var i in this.particles) {
+            for (let i in this.particles) {
                 this.particles[i].draw({mother: this});
             }
-            this.colorCycle+=+0.5;
-            if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
+//            this.colorCycle+=+0.5;
+			counter++;
+			if( counter >= 360 ) {
+				counter = 0;
+			}
+//            if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
         }.bind(this), 30);
     }
 };
