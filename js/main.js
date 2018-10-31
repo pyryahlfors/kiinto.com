@@ -138,15 +138,15 @@
 		elem.top = elem.elemBounding.top;
 		elem.left = elem.elemBounding.left;
 
-		this.touchEvent = (function(){
+		let touchEvent = (function(){
 			var testTouch = document.createElement("DIV");
 			testTouch.setAttribute('ontouchstart', 'return;');
 			var isTouchDevice = (typeof testTouch.ontouchstart == 'function' && window.screenX === 0) ? true : false;
-			return (isTouchDevice) ? 'touchstart' : 'mousemove';
+			return (isTouchDevice) ? 'touchmove' : 'mousemove';
 			})();
 
 
-		params.container.addEventListener(this.touchEvent, function(e){
+		params.container.addEventListener(touchEvent, function(e){
 			e.preventDefault();
 			let rotaX = (20/elem.width) * (elem.width/2 -(e.pageX -elem.left));
 			let rotaY = (20/elem.height) * (elem.height/2 -(e.pageY -elem.top));

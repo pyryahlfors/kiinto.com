@@ -156,7 +156,7 @@ var particles = {
             for (var i in this.particles) {
                 this.particles[i].draw({mother: this});
             }
-            this.colorCycle+=1;
+            this.colorCycle+=+0.5;
             if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
         }.bind(this), 30);
     }
