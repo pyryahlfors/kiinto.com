@@ -1,34 +1,14 @@
 let particles = {
     settings : {
-        density: 100,
+        density: 50,
         startingX: 0,
         startingY: 0
         },
-/*
-    colorCycle : 0,
-    colorCycleSeed :  [[255,0,0],[255,0,255],[0,0,255],[0,255,255],[0,255,0],[255,255,0],[255,0,0]],
-    colorCycleSize : 255,
-    colorCycleTable : [],
-*/
+
     particles : {},
     particleIndex: 0,
 
     init: function(){
-// Create color cycle table
-/*
-        let tempArr = [];
-        let colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
-        for(let i=1; i<this.colorCycleSeed.length; i++) {
-        	for(let j=0; j<=colorWidth; j++) {
-        		let rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
-        		let gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
-        		let br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
-                tempArr.push([rr, gr, br]);
-        		}
-        	}
-        this.colorCycleTable = tempArr;
-
-*/
 // Create canvas
     this.canvas = document.createElement("canvas");
     document.querySelector('.intro').appendChild(this.canvas);
@@ -81,7 +61,7 @@ let particles = {
 		this.counter = params.counter;
         // Determine original X-axis speed based on setting limitation
         this.vx = Math.random() * 40 - 20;
-        this.vy = Math.random() * 40 - 20;
+        this.vy = -20 + Math.random() * 40;
 
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
@@ -92,7 +72,6 @@ let particles = {
         this.history = [];
 		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
 
-        this.gravity= this.randomSeed * (Math.random()*1 - 0.5);
 		this.gravity= Math.random()*1 - 0.5;
 
         this.draw = function(params){
@@ -102,7 +81,6 @@ let particles = {
             this.x += randomizeSeed* this.vx;
             this.y += randomizeSeed* this.vy;
             this.gravity=  randomizeSeed * Math.random()*0.5;
-//			this.gravity=  Math.random()*0.5;
 
             // Adjust for gravity
             this.vy *= this.gravity;
@@ -123,9 +101,8 @@ let particles = {
             for(let i=1, j=this.history.length; i<j;i++){
                 this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
                 this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
-                params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
                 params.mother.ctx.lineTo(this.history[i][0], this.history[i][1]);
-
+				params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
             }
             params.mother.ctx.stroke();
 //            params.mother.ctx.closePath();
@@ -144,12 +121,10 @@ let particles = {
         setInterval(function() {
             this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
             this.ctx.fillStyle = `hsla(${counter}, 100%, 50%, 0.1)`;
-			//"rgba("+this.colorCycleTable[Math.round(this.colorCycle)]+",.1)";
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
-                if (Math.random() > 0.99) {
+                if (Math.random() > 0.98) {
                     new this.particle({
-//                        color: this.colorCycleTable[Math.round(this.colorCycle)],
                         mother : this,
 						counter: counter
                     });
@@ -158,12 +133,10 @@ let particles = {
             for (let i in this.particles) {
                 this.particles[i].draw({mother: this});
             }
-//            this.colorCycle+=+0.5;
 			counter++;
 			if( counter >= 360 ) {
 				counter = 0;
 			}
-//            if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
         }.bind(this), 30);
     }
 };
