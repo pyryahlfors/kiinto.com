@@ -80,7 +80,7 @@ let particles = {
             this.ys = params.mother.settings.startingY;
             this.x += randomizeSeed* this.vx;
             this.y += randomizeSeed* this.vy;
-            this.gravity=  randomizeSeed * Math.random()*0.5;
+            this.gravity = randomizeSeed * Math.random()*1.5;
 
             // Adjust for gravity
             this.vy *= this.gravity;
@@ -117,10 +117,9 @@ let particles = {
 
 
     animate: function(){
-		let counter = 0;
+		let counter = 180;
         setInterval(function() {
-            this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-            this.ctx.fillStyle = `hsla(${counter}, 100%, 50%, 0.1)`;
+            this.ctx.fillStyle = `hsl(${counter}, 100%, 5%)`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
                 if (Math.random() > 0.98) {
