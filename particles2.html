@@ -85,7 +85,7 @@ let particles = {
     window.addEventListener('resize', updateparticlesSize.bind(this), false);
     window.addEventListener(this.touchEvent, updateCenterPoint.bind(this), false);
 
-	window.addEventListener('mousedown', function(){this.mouseDown = true}.bind(this), false)
+	window.addEventListener('mousedown', function(){this.updateCenterPoint(); this.mouseDown = true}.bind(this), false)
 	window.addEventListener('mouseup', function(){this.mouseDown = false}.bind(this), false)
 
 	window.addEventListener('touchstart', function(e){
