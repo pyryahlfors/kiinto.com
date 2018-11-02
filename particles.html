@@ -6,31 +6,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
 	<meta name="Description" content="My name is Pyry Ahlfors and I am an UX Designer.">
-	<title>Dem particles</title>
+	<title>Kiinto.com - Pyry Ahlfors</title>
 	<link rel="stylesheet" href="css/style.css" />
 </head>
 
-<style type="text/css">
-body {
-	width: 100%;
-	height: 100%;
-	overflow: hidden;
-	overflow-y: hidden;
-	margin: 0;
-	padding: 0;
-}
-
-* {
-	touch-action: none;
-}
-</style>
 <body>
 	<div class="intro"></div>
 
 <script>
 let particles = {
     settings : {
-        density: 1000,
+        density: 50,
         startingX: 0,
         startingY: 0
         },
@@ -46,23 +32,14 @@ let particles = {
     this.canvas.style.background = "transparent";
 
     this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-    this.canvas.height  = Math.min(document.documentElement.clientHeight, window.innerHeight || 0);
+    this.canvas.height  = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 
-// Create canvas for that contains the sand piles :)
-	this.stackingCanvas = this.canvas.cloneNode(false);
-	document.querySelector('.intro').appendChild(this.stackingCanvas);
-	this.stackingCanvas.ctx = this.stackingCanvas.getContext("2d");
-
-// Create array to contain height for each pixel row
-	this.pileHeight = new Array(this.canvas.width);
-	this.pileHeight.fill(100);
-	window.pileHeight = this.pileHeight;
     this.settings.startingX = this.canvas.width / 2;
     this.settings.startingY = this.canvas.height / 2;
 
     let updateparticlesSize = function(){
         this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-        this.canvas.height = Math.min(document.documentElement.clientHeight, window.innerHeight || 0);
+        this.canvas.height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     };
 
     let updateCenterPoint = function(evt){
@@ -85,18 +62,6 @@ let particles = {
     window.addEventListener('resize', updateparticlesSize.bind(this), false);
     window.addEventListener(this.touchEvent, updateCenterPoint.bind(this), false);
 
-	window.addEventListener('mousedown', function(){this.mouseDown = true}.bind(this), false)
-	window.addEventListener('mouseup', function(){this.mouseDown = false}.bind(this), false)
-
-	window.addEventListener('touchstart', function(e){
-		e.preventDefault();
-		this.mouseDown = true;
-	}.bind(this), false)
-	window.addEventListener('touchend', function(e){
-		e.preventDefault();
-		this.mouseDown = false;
-	}.bind(this), false)
-
     this.animate();
     },
 
@@ -111,8 +76,8 @@ let particles = {
         this.color = params.color;
 		this.counter = params.counter;
         // Determine original X-axis speed based on setting limitation
-        this.vx = -2 + Math.random() * 4;
-        this.vy = Math.random() * 4;
+        this.vx = Math.random() * 40 - 20;
+        this.vy = -20 + Math.random() * 40;
 
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
@@ -121,53 +86,72 @@ let particles = {
         this.id = params.mother.particleIndex;
         this.life = 0;
         this.history = [];
+		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
 
-		this.gravity= 0.8;
-
-
-		this.setPixel = function(x,y,c) {
-			var p=params.mother.ctx.createImageData(1,1);
-			p.data[0]=c.r;
-			p.data[1]=c.g;
-			p.data[2]=c.b;
-			p.data[3]=c.a;
-			params.mother.ctx.putImageData(p,x,y);
-		}
+		this.gravity= Math.random()*1 - 0.5;
 
         this.draw = function(params){
-			if(this.y < params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)] ) {
-	            this.x += this.vx;
-	            this.y += this.vy;
+			let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
+            this.xs = params.mother.settings.startingX;
+            this.ys = params.mother.settings.startingY;
+            this.x += randomizeSeed* this.vx;
+            this.y += randomizeSeed* this.vy;
+            this.gravity = randomizeSeed * Math.random()*1.5;
 
-	            // Adjust for gravity
-	            this.vy += this.gravity;
-			}
-			else {
-				params.mother.pileHeight[Math.round(this.x)] += 1;
-				params.mother.stackingCanvas.ctx.fillRect(this.x, this.y, 1, 1 );
-				params.mother.stackingCanvas.ctx.fillStyle = "rgba(0,0,0,1)";
-				delete params.mother.particles[this.id];
+            // Adjust for gravity
+            this.vy *= this.gravity;
+
+            this.rgbAlpha = 1-(0.1*this.life);
+
+            // Age the particle
+            this.life+=0.1;
+
+            if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 200 || this.rgbAlpha < 0) {
+                delete params.mother.particles[this.id];
             }
 
-			this.setPixel(this.x, this.y , {r: 0, g: Math.round(Math.random()*255), b: 255, a:255});
+//            params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
+			params.mother.ctx.strokeStyle = `hsla(${this.counter}, 100%, 50%, ${this.rgbAlpha})`;
+            params.mother.ctx.beginPath();
+
+            for(let i=1, j=this.history.length; i<j;i++){
+                this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
+                this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
+                params.mother.ctx.lineTo(this.history[i][0], this.history[i][1]);
+				params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
+            }
+            params.mother.ctx.stroke();
+//            params.mother.ctx.closePath();
+            this.history.push([this.x, this.y]);
+
+            if(this.history.length > 30) {
+                this.history.splice(0,1);
+            }
+
         };
     },
 
 
     animate: function(){
+		let counter = 180;
         setInterval(function() {
-			this.ctx.fillStyle = `hsl(0, 10%, 90%)`;
+            this.ctx.fillStyle = `hsl(${counter}, 100%, 5%)`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
-                if (Math.random() > 0.98 && this.mouseDown === true) {
+                if (Math.random() > 0.98) {
                     new this.particle({
                         mother : this,
+						counter: counter
                     });
                 }
             }
             for (let i in this.particles) {
                 this.particles[i].draw({mother: this});
             }
+			counter++;
+			if( counter >= 360 ) {
+				counter = 0;
+			}
         }.bind(this), 30);
     }
 };
