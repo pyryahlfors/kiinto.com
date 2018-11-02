@@ -90,6 +90,10 @@ let particles = {
 	window.addEventListener('mousedown', function(){this.mouseDown = true}.bind(this), false)
 	window.addEventListener('mouseup', function(){this.mouseDown = false}.bind(this), false)
 
+	window.addEventListener('touchmove', updateCenterPoint.bind(this), false)
+	window.addEventListener('touchstart', function(){this.mouseDown = true}.bind(this), false)
+	window.addEventListener('touchend', function(){this.mouseDown = false}.bind(this), false)
+
 	window.addEventListener('keypress', function(){
 		this.r = Math.round(Math.random()*255);
 		this.g = Math.round(Math.random()*255);
