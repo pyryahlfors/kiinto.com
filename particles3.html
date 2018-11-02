@@ -22,10 +22,14 @@ body {
 * {
 	touch-action: none;
 }
+
+CANVAS {
+	transform: translate3d(0,0,0);
+	position: absolute;
+	top: 0;
+}
 </style>
 <body>
-	<div class="intro"></div>
-	<div class="particle-count" style="position: absolute; top: 20px; left: 20px; background: hsl(0, 10%, 80%); z-index: 2; color: hsl(0,10%, 20%); padding: 10px 5px;"></div>
 
 <script>
 let particles = {
@@ -41,7 +45,7 @@ let particles = {
     init: function(){
 // Create canvas
     this.canvas = document.createElement("canvas");
-    document.querySelector('.intro').appendChild(this.canvas);
+    document.body.appendChild(this.canvas);
     this.ctx = this.canvas.getContext("2d");
     this.canvas.style.background = "transparent";
 
@@ -50,17 +54,16 @@ let particles = {
 
 // Create canvas for that contains the sand piles :)
 	this.stackingCanvas = this.canvas.cloneNode(false);
-	document.querySelector('.intro').appendChild(this.stackingCanvas);
+	document.body.appendChild(this.stackingCanvas);
 	this.stackingCanvas.ctx = this.stackingCanvas.getContext("2d");
 
 // Create array to contain height for each pixel row
 	this.pileHeight = new Array(this.canvas.width);
 	this.pileHeight.fill(0);
 	window.pileHeight = this.pileHeight;
+
     this.settings.startingX = this.canvas.width / 2;
     this.settings.startingY = this.canvas.height / 2;
-
-	this.particleCountContainer = document.querySelector('.particle-count');
 
 	this.r = Math.round(Math.random()*255);
 	this.g = Math.round(Math.random()*255);
@@ -107,7 +110,6 @@ let particles = {
         this.xx = this.x;
         this.yy = this.y;
 
-		this.state = 'in-air';
         this.color = params.color;
 
         // Determine original X-axis speed based on setting limitation
@@ -168,7 +170,7 @@ let particles = {
 			this.ctx.fillStyle = `hsl(0, 10%, 90%)`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
-                if (Math.random() > 0.98 && this.mouseDown === true) {
+                if (Math.random() > 0.8 && this.mouseDown === true) {
 
                     new this.particle({
 						color: {r: this.r, g: this.g, b: this.b},
@@ -176,18 +178,12 @@ let particles = {
                     });
                 }
             }
-			let nakki = 0;
             for (let i in this.particles) {
-				nakki++;
                 this.particles[i].draw({mother: this});
             }
-
-			this.particleCountContainer.innerHTML = nakki;
         }.bind(this), 30);
     }
 };
-
-
 particles.init();
 </script>
 </body>
