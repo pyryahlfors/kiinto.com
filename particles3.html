@@ -6,7 +6,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
 	<title>Dem particles</title>
-	<link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/62f387ead75e4b806ab23cc2627110b6d021975e/css/style.css'/>
+	<link rel="stylesheet" href="css/style.css" />
 </head>
 
 <style type="text/css">
@@ -96,11 +96,12 @@ let particles = {
         this.xx = this.x;
         this.yy = this.y;
 
+		this.state = 'in-air';
         this.color = params.color;
 
         // Determine original X-axis speed based on setting limitation
         this.vx = -2 + Math.random() * 4;
-        this.vy = Math.random() * 4;
+        this.vy = -2 + Math.random() * 4;
 
         // Add new particle to the index
         // Object used as it's simpler to manage that an array
@@ -120,20 +121,33 @@ let particles = {
 		}
 
         this.draw = function(params){
-			if(this.y < params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)] ) {
-	            this.x += this.vx;
-	            this.y += this.vy;
-
-	            // Adjust for gravity
-	            this.vy += this.gravity;
-				this.setPixel(params.mother.ctx, this.x, this.y , {r: this.color.r, g: this.color.g, b: this.color.b});
-			}
-			else {
-				params.mother.pileHeight[Math.round(this.x)] += 1;
-				this.setPixel(params.mother.stackingCanvas.ctx, this.x, this.y, {r: this.color.r, g: this.color.g, b: this.color.b});
+			if(this.ys > params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)]) {
 				delete params.mother.particles[this.id];
-            }
+			}
 
+			else {
+				if(this.y < params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)] ) {
+		            this.x += this.vx;
+		            this.y += this.vy;
+
+		            // Adjust for gravity
+		            this.vy += this.gravity;
+					this.setPixel(params.mother.ctx, this.x, this.y , {r: this.color.r, g: this.color.g, b: this.color.b});
+					return;
+				}
+
+				if(this.y >= params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)]) {
+					this.y = params.mother.canvas.height - params.mother.pileHeight[Math.round(this.x)]-1;
+				}
+
+				if(
+					Math.abs(Math.round(this.y) - params.mother.canvas.height) < params.mother.pileHeight[Math.round(this.x+1)]+2 &&
+					Math.abs(Math.round(this.y) - params.mother.canvas.height) < params.mother.pileHeight[Math.round(this.x-1)]+2) {
+				params.mother.pileHeight[Math.round(this.x)] = Math.abs(Math.round(this.y) - params.mother.canvas.height);
+				this.setPixel(params.mother.stackingCanvas.ctx, Math.round(this.x), Math.round(this.y), {r: this.color.r, g: this.color.g, b: this.color.b});
+			}
+				delete params.mother.particles[this.id];
+			}
         };
     },
 
@@ -143,9 +157,9 @@ let particles = {
 			this.ctx.fillStyle = `hsl(0, 10%, 90%)`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
-                if (Math.random() > 0.98 && this.mouseDown === true) {
+                if (Math.random() > 0.90 && this.mouseDown === true) {
                     new this.particle({
-						color: {r: 48, g: 64, b: 64},
+						color: {r: 20, g: 32, b: 32},
                         mother : this,
                     });
                 }
