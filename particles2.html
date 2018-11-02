@@ -5,7 +5,6 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
-	<meta name="Description" content="My name is Pyry Ahlfors and I am an UX Designer.">
 	<title>Dem particles</title>
 	<link rel="stylesheet" href="css/style.css" />
 </head>
@@ -26,6 +25,7 @@ body {
 </style>
 <body>
 	<div class="intro"></div>
+	<div class="particle-count" style="position: absolute; top: 20px; left: 20px; background: hsl(0, 10%, 80%); z-index: 2; color: hsl(0,10%, 20%); padding: 10px 5px;"></div>
 
 <script>
 let particles = {
@@ -55,10 +55,12 @@ let particles = {
 
 // Create array to contain height for each pixel row
 	this.pileHeight = new Array(this.canvas.width);
-	this.pileHeight.fill(100);
+	this.pileHeight.fill(0);
 	window.pileHeight = this.pileHeight;
     this.settings.startingX = this.canvas.width / 2;
     this.settings.startingY = this.canvas.height / 2;
+
+	this.particleCountContainer = document.querySelector('.particle-count');
 
     let updateparticlesSize = function(){
         this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -75,27 +77,11 @@ let particles = {
         this.settings.startingY = temp.clientY + window.scrollY;
     };
 
-    this.touchEvent = (function(){
-        let testTouch = document.createElement("DIV");
-        testTouch.setAttribute('ontouchstart', 'return;');
-        let isTouchDevice = (typeof testTouch.ontouchstart == 'function' && window.screenX === 0) ? true : false;
-        return (isTouchDevice) ? 'touchmove' : 'mousemove';
-        })();
-
     window.addEventListener('resize', updateparticlesSize.bind(this), false);
-    window.addEventListener(this.touchEvent, updateCenterPoint.bind(this), false);
+    window.addEventListener('mousemove', updateCenterPoint.bind(this), false);
 
-	window.addEventListener('mousedown', function(){this.updateCenterPoint(); this.mouseDown = true}.bind(this), false)
+	window.addEventListener('mousedown', function(){this.mouseDown = true}.bind(this), false)
 	window.addEventListener('mouseup', function(){this.mouseDown = false}.bind(this), false)
-
-	window.addEventListener('touchstart', function(e){
-		e.preventDefault();
-		this.mouseDown = true;
-	}.bind(this), false)
-	window.addEventListener('touchend', function(e){
-		e.preventDefault();
-		this.mouseDown = false;
-	}.bind(this), false)
 
     this.animate();
     },
@@ -106,10 +92,12 @@ let particles = {
         this.y = params.mother.settings.startingY;
         this.xs = params.mother.settings.startingX;
         this.ys = params.mother.settings.startingY;
+
         this.xx = this.x;
         this.yy = this.y;
+
         this.color = params.color;
-		this.counter = params.counter;
+
         // Determine original X-axis speed based on setting limitation
         this.vx = -2 + Math.random() * 4;
         this.vy = Math.random() * 4;
@@ -119,19 +107,16 @@ let particles = {
         params.mother.particleIndex++;
         params.mother.particles[params.mother.particleIndex] = this;
         this.id = params.mother.particleIndex;
-        this.life = 0;
-        this.history = [];
-
 		this.gravity= 0.8;
 
 
-		this.setPixel = function(x,y,c) {
-			var p=params.mother.ctx.createImageData(1,1);
+		this.setPixel = function(trgt, x,y,c) {
+			var p=trgt.createImageData(1,1);
 			p.data[0]=c.r;
 			p.data[1]=c.g;
 			p.data[2]=c.b;
-			p.data[3]=c.a;
-			params.mother.ctx.putImageData(p,x,y);
+			p.data[3]=255;
+			trgt.putImageData(p,x,y);
 		}
 
         this.draw = function(params){
@@ -141,15 +126,14 @@ let particles = {
 
 	            // Adjust for gravity
 	            this.vy += this.gravity;
+				this.setPixel(params.mother.ctx, this.x, this.y , {r: this.color.r, g: this.color.g, b: this.color.b});
 			}
 			else {
 				params.mother.pileHeight[Math.round(this.x)] += 1;
-				params.mother.stackingCanvas.ctx.fillRect(this.x, this.y, 1, 1 );
-				params.mother.stackingCanvas.ctx.fillStyle = "rgba(0,0,0,1)";
+				this.setPixel(params.mother.stackingCanvas.ctx, this.x, this.y, {r: this.color.r, g: this.color.g, b: this.color.b});
 				delete params.mother.particles[this.id];
             }
 
-			this.setPixel(this.x, this.y , {r: 0, g: Math.round(Math.random()*255), b: 255, a:255});
         };
     },
 
@@ -161,13 +145,18 @@ let particles = {
             for (let i = 0; i < this.settings.density; i++) {
                 if (Math.random() > 0.98 && this.mouseDown === true) {
                     new this.particle({
+						color: {r: 48, g: 64, b: 64},
                         mother : this,
                     });
                 }
             }
+			let nakki = 0;
             for (let i in this.particles) {
+				nakki++;
                 this.particles[i].draw({mother: this});
             }
+
+			this.particleCountContainer.innerHTML = nakki;
         }.bind(this), 30);
     }
 };
@@ -175,6 +164,5 @@ let particles = {
 
 particles.init();
 </script>
-
 </body>
 </html>
