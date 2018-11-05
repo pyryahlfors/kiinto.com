@@ -67,8 +67,8 @@
 				this.settings.startingX = this.canvas.width / 2;
 				this.settings.startingY = this.canvas.height / 2;
 
-				this.r = Math.round(Math.random() * 32);
-				this.g = Math.round(Math.random() * 32);
+				this.r = Math.round(Math.random() * 64);
+				this.g = Math.round(Math.random() * 64);
 				this.b = Math.round(Math.random() * 255);
 
 
@@ -104,8 +104,8 @@
 				}.bind(this), false)
 
 				window.addEventListener('keypress', function() {
-					this.r = Math.round(Math.random() * 32);
-					this.g = Math.round(Math.random() * 32	);
+					this.r = Math.round(Math.random() * 64);
+					this.g = Math.round(Math.random() * 64);
 					this.b = Math.round(Math.random() * 255);
 
 				}.bind(this), false)
