@@ -133,6 +133,7 @@
 				this.id = params.mother.particleIndex;
 				this.gravity = 0.8;
 
+				this.life = 0;
 
 				this.setPixel = function(trgt, x, y, c) {
 					var p = trgt.createImageData(1, 1);
@@ -144,6 +145,13 @@
 				}
 
 				this.draw = function(params) {
+					this.life++;
+					if(this.life > 100) {
+						delete params.mother.particles[this.id];
+						delete this;
+						return;
+					}
+
 					let thisX = Math.round(this.x);
 
 // Delete particles that are offscreen
