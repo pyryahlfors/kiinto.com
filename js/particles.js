@@ -49,73 +49,6 @@ let particles = {
     this.animate();
     },
 
-    particle : function(params) {
-        // Establish starting positions and velocities
-        this.x = params.mother.settings.startingX;
-        this.y = params.mother.settings.startingY;
-        this.xs = params.mother.settings.startingX;
-        this.ys = params.mother.settings.startingY;
-        this.xx = this.x;
-        this.yy = this.y;
-        this.color = params.color;
-		this.counter = params.counter;
-        // Determine original X-axis speed based on setting limitation
-        this.vx = Math.random() * 40 - 20;
-        this.vy = -20 + Math.random() * 40;
-
-        // Add new particle to the index
-        // Object used as it's simpler to manage that an array
-        params.mother.particleIndex++;
-        params.mother.particles[params.mother.particleIndex] = this;
-        this.id = params.mother.particleIndex;
-        this.life = 0;
-        this.history = [];
-		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
-
-		this.gravity= Math.random()*1 - 0.5;
-
-        this.draw = function(params){
-			let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
-            this.xs = params.mother.settings.startingX;
-            this.ys = params.mother.settings.startingY;
-            this.x += randomizeSeed* this.vx;
-            this.y += randomizeSeed* this.vy;
-            this.gravity = randomizeSeed * Math.random()*1.5;
-
-            // Adjust for gravity
-            this.vy *= this.gravity;
-
-            this.rgbAlpha = 1-(0.1*this.life);
-
-            // Age the particle
-            this.life+=0.1;
-
-            if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 200 || this.rgbAlpha < 0) {
-                delete params.mother.particles[this.id];
-            }
-
-//            params.mother.ctx.strokeStyle = 'rgba('+this.color+','+this.rgbAlpha+')';
-			params.mother.ctx.strokeStyle = `hsla(${this.counter}, 100%, 50%, ${this.rgbAlpha})`;
-            params.mother.ctx.beginPath();
-
-            for(let i=1, j=this.history.length; i<j;i++){
-                this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
-                this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
-                params.mother.ctx.lineTo(this.history[i][0], this.history[i][1]);
-				params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
-            }
-            params.mother.ctx.stroke();
-//            params.mother.ctx.closePath();
-            this.history.push([this.x, this.y]);
-
-            if(this.history.length > 30) {
-                this.history.splice(0,1);
-            }
-
-        };
-    },
-
-
     animate: function(){
 		let counter = 180;
         setInterval(function() {
@@ -123,7 +56,7 @@ let particles = {
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
                 if (Math.random() > 0.98) {
-                    new this.particle({
+                    new particle({
                         mother : this,
 						counter: counter
                     });
@@ -140,5 +73,70 @@ let particles = {
     }
 };
 
+class particle {
+	constructor(params) {
+		// Establish starting positions and velocities
+		this.x = params.mother.settings.startingX;
+		this.y = params.mother.settings.startingY;
+		this.xs = params.mother.settings.startingX;
+		this.ys = params.mother.settings.startingY;
+		this.xx = this.x;
+		this.yy = this.y;
+		this.color = params.color;
+		this.counter = params.counter;
+		// Determine original X-axis speed based on setting limitation
+		this.vx = Math.random() * 40 - 20;
+		this.vy = -20 + Math.random() * 40;
+
+		// Add new particle to the index
+		// Object used as it's simpler to manage that an array
+		params.mother.particleIndex++;
+		params.mother.particles[params.mother.particleIndex] = this;
+		this.id = params.mother.particleIndex;
+		this.life = 0;
+		this.history = [];
+		this.randomSeed = [1,-1][Math.round(Math.random()*1)];
+
+		this.gravity= Math.random()*1 - 0.5;
+	}
+
+	draw(params) {
+		let randomizeSeed = [1,-1][Math.round(Math.random()*1)];
+		this.xs = params.mother.settings.startingX;
+		this.ys = params.mother.settings.startingY;
+		this.x += randomizeSeed* this.vx;
+		this.y += randomizeSeed* this.vy;
+		this.gravity = randomizeSeed * Math.random()*1.5;
+
+		// Adjust for gravity
+		this.vy *= this.gravity;
+
+		this.rgbAlpha = 1-(0.1*this.life);
+
+		// Age the particle
+		this.life+=0.1;
+
+		if (this.x < 0 || this.x > Math.max(document.documentElement.clientWidth, window.innerWidth) || this.y < 0 || this.y > Math.max(document.documentElement.clientHeight, window.innerHeight) || this.life > 200 || this.rgbAlpha < 0) {
+			delete params.mother.particles[this.id];
+			}
+
+		params.mother.ctx.strokeStyle = `hsla(${this.counter}, 100%, 50%, ${this.rgbAlpha})`;
+		params.mother.ctx.beginPath();
+
+		for(let i=1, j=this.history.length; i<j;i++){
+			this.history[i-1][0] = this.history[i-1][0]+Math.random()*2;
+			this.history[i-1][1] = this.history[i-1][1]+Math.random()*2;
+			params.mother.ctx.lineTo(this.history[i][0], this.history[i][1]);
+			params.mother.ctx.moveTo(this.history[i-1][0], this.history[i-1][1]);
+		}
+		params.mother.ctx.stroke();
+
+		this.history.push([this.x, this.y]);
+
+		if(this.history.length > 30) {
+			this.history.splice(0,1);
+		}
+	}
+}
 
 particles.init();

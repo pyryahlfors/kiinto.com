@@ -135,6 +135,7 @@ let particles = {
     animate: function(){
 		let counter = 180;
         setInterval(function() {
+
             this.ctx.fillStyle = `hsl(${counter}, 100%, 5%)`;
             this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
             for (let i = 0; i < this.settings.density; i++) {
