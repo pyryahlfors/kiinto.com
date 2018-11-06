@@ -31,7 +31,7 @@ CANVAS {
 }
 
 .debug {
-	position: relative;
+	position: absolute;
 	padding: 1rem;
 	z-index: 2;
 	color: var(--color-black);
@@ -39,6 +39,7 @@ CANVAS {
 	text-shadow: 1px 1px var(--color-white);
 	user-select: none;
 }
+
 
 .color {
 	border-radius: 1rem;
@@ -66,36 +67,14 @@ let particles = {
 	particles: {},
 	particleIndex: 0,
 
-	colorCycle: 0,
-//	colorCycleSeed: [[255, 0, 0], [255, 0, 255], [0, 0, 255], [0, 255, 255], [0, 255, 0], [255, 255, 0], [255, 0, 0]],
-	colorCycleSeed: [[255, 255, 255], [0, 0, 0] , [255,255,255]],
-	colorCycleSize: 255,
 	colorCycleTable: [],
 
-
 	init: function() {
-		// Create color cycle table
-		let tempArr = [];
-		let colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length - 1));
-		for (let i = 1; i < this.colorCycleSeed.length; i++) {
-			for (let j = 0; j <= colorWidth; j++) {
-				let rr = Math.floor(this.colorCycleSeed[i - 1][0] - ((this.colorCycleSeed[i - 1][0] - this.colorCycleSeed[i][0]) / colorWidth * j));
-				let gr = Math.floor(this.colorCycleSeed[i - 1][1] - ((this.colorCycleSeed[i - 1][1] - this.colorCycleSeed[i][1]) / colorWidth * j));
-				let br = Math.floor(this.colorCycleSeed[i - 1][2] - ((this.colorCycleSeed[i - 1][2] - this.colorCycleSeed[i][2]) / colorWidth * j));
-				tempArr.push([rr, gr, br]);
-			}
-		}
-		this.colorCycleTable = tempArr;
-
 		// Create canvas
 		this.canvas = document.createElement("canvas");
 		document.body.appendChild(this.canvas);
 		this.ctx = this.canvas.getContext("2d");
 		this.canvas.style.background = "transparent";
-
-
-		this.debugInfoContainer = document.querySelector('.debug SPAN.count');
-		this.currentColorContainer = document.querySelector('.debug SPAN.color');
 
 		this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 		this.canvas.height = Math.min(document.documentElement.clientHeight, window.innerHeight || 0);
@@ -110,6 +89,31 @@ let particles = {
 		this.pileHeight.fill(0);
 		window.pileHeight = this.pileHeight;
 
+
+//	Debug container
+		this.debugInfoContainer = document.querySelector('.debug SPAN.count');
+		this.currentColorContainer = document.querySelector('.debug SPAN.color');
+
+// Init gradient tool
+		let initColorCycleTable = (seed, l) => {
+			let tempArr = [];
+			let colorWidth = Math.round(l / (seed.length - 1));
+			for (let i = 1; i < seed.length; i++) {
+				for (let j = 0; j <= colorWidth; j++) {
+					let rr = Math.floor(seed[i - 1][0] - ((seed[i - 1][0] - seed[i][0]) / colorWidth * j));
+					let gr = Math.floor(seed[i - 1][1] - ((seed[i - 1][1] - seed[i][1]) / colorWidth * j));
+					let br = Math.floor(seed[i - 1][2] - ((seed[i - 1][2] - seed[i][2]) / colorWidth * j));
+					tempArr.push([rr, gr, br]);
+				}
+			}
+			this.colorCycleTable = tempArr;
+			this.colorCycle = 0;
+			this.currentColorContainer.style.background = `rgb(${this.colorCycleTable[Math.round(this.colorCycle)][0]}, ${this.colorCycleTable[Math.round(this.colorCycle)][1]}, ${this.colorCycleTable[Math.round(this.colorCycle)][2]})`;
+		}
+
+		initColorCycleTable([[255, 0, 0], [0, 0, 0] , [255,255,255]], 255)
+
+//
 		this.settings.startingX = this.canvas.width / 2;
 		this.settings.startingY = this.canvas.height / 2;
 
@@ -150,6 +154,10 @@ let particles = {
 			}
 			this.currentColorContainer.style.background = `rgb(${this.colorCycleTable[Math.round(this.colorCycle)][0]}, ${this.colorCycleTable[Math.round(this.colorCycle)][1]}, ${this.colorCycleTable[Math.round(this.colorCycle)][2]})`;
 		}.bind(this), false)
+
+		this.currentColorContainer.addEventListener('click', function(){
+			initColorCycleTable([[255, 0, 0], [255, 0, 255], [0, 0, 255], [0, 255, 255], [0, 255, 0], [255, 255, 0], [255, 0, 0]], 255)
+		}.bind(this), false);
 
 		this.animate();
 	},
@@ -230,8 +238,10 @@ class particle {
 			delete params.mother.particles[this.id];
 			return;
 		}
+
 		// SO MUCH THIS!!! Small bug here still though
-		if (this.y <= params.mother.canvas.height - params.mother.pileHeight[thisX+Math.round(this.vx)]) {
+		let tempVX = Math.round(this.x + this.vx);
+		if (this.y <= params.mother.canvas.height - params.mother.pileHeight[tempVX]) {
 			this.x += this.vx;
 			this.y += this.vy;
 
