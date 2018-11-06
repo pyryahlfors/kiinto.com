@@ -219,6 +219,9 @@ class particle {
 		}
 
 		let thisX = Math.round(this.x);
+		let thisXl = params.mother.pileHeight[thisX - 1];
+		let thisXr = params.mother.pileHeight[thisX + 1];
+
 
 		// Delete particles that are offscreen
 		if (this.ys > params.mother.canvas.height - params.mother.pileHeight[thisX] ||
@@ -227,8 +230,8 @@ class particle {
 			delete params.mother.particles[this.id];
 			return;
 		}
-		//
-		if (this.y < params.mother.canvas.height - params.mother.pileHeight[thisX]) {
+		// SO MUCH THIS!!! Small bug here still though
+		if (this.y <= params.mother.canvas.height - params.mother.pileHeight[thisX+Math.round(this.vx)]) {
 			this.x += this.vx;
 			this.y += this.vy;
 
@@ -249,9 +252,6 @@ class particle {
 
 		// Current Y position of the particle
 		let thisCurrentY = params.mother.canvas.height - this.y;
-
-		let thisXl = params.mother.pileHeight[thisX - 1];
-		let thisXr = params.mother.pileHeight[thisX + 1];
 
 		// Check if particles are overflowin x axis
 		if (thisX < 1) {
