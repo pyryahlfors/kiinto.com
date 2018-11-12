@@ -80,7 +80,7 @@ let particles = {
 		document.body.appendChild(this.canvas);
 		this.ctx = this.canvas.getContext("2d");
 
-		this.canvas.width = Math.min(document.documentElement.clientWidth, window.innerWidth, 640 || 640);
+		this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 		this.canvas.height = Math.min(document.documentElement.clientHeight, window.innerHeight || 0);
 
 		// Create canvas for that contains the sand piles :)
