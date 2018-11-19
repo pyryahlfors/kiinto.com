@@ -5,8 +5,8 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
-	<title>Dem particles</title>
-	<link rel="stylesheet" href="css/style.css" />
+	<title>Particles - Sand</title>
+	<link rel="stylesheet" href="css/particles.css" />
 </head>
 
 <style type="text/css">
@@ -28,7 +28,7 @@ CANVAS {
 	transform: translate3d(0, 0, 0);
 	position: absolute;
 	top: 0;
-	background: hsl(180, 10%, 90%)
+	background: hsl(180, 10%, 10%)
 }
 
 CANVAS:nth-of-type(2) {
@@ -136,15 +136,12 @@ let particles = {
 		};
 
 		window.addEventListener('mousemove', updateCenterPoint.bind(this), false);
-
-		window.addEventListener('mousedown', function() { this.mouseDown = true }.bind(this), false)
-
+		window.addEventListener('mousedown', function(e) {e.stopPropagation(); this.mouseDown = true }.bind(this), false)
 		window.addEventListener('mouseup', function() { this.mouseDown = false }.bind(this), false)
-
 		window.addEventListener('touchmove', updateCenterPoint.bind(this), false)
-
 		window.addEventListener('touchstart', function(e) {
 			e.preventDefault();
+			e.stopPropagation();
 			this.mouseDown = true
 		}.bind(this), false)
 
@@ -152,7 +149,6 @@ let particles = {
 			this.mouseDown = false
 		}.bind(this), false)
 
-// Not used
 		window.addEventListener('keypress', function() {
 			this.colorCycle += 0.5;
 			if (this.colorCycle > this.colorCycleTable.length - 1) {
@@ -172,7 +168,7 @@ let particles = {
 	animate: function() {
 		let render = function() {
 			this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-			for (let i = 0, j = this.settings.density; i < j; i++) {
+			for (let i = 0; i < this.settings.density; i++) {
 				if (Math.random() > 0.98 && this.mouseDown === true) {
 
 					new particle({
@@ -188,6 +184,7 @@ let particles = {
 			}
 
 			let count = 0;
+
 			for (let i in this.particles) {
 				count++;
 				this.particles[i].draw({
@@ -241,8 +238,6 @@ class particle {
 			return;
 		}
 
-
-		// SO MUCH THIS!!! Small bug here still though
 		let tempVX = Math.floor(this.x + this.vx);
 		if(tempVX < 0  || tempVX > params.mother.canvas.width-1) {
 			this.vx*=-1;

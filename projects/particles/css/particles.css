@@ -1,0 +1,19 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,800,900');
+@import url('https://fonts.googleapis.com/css?family=IBM+Plex+Mono');
+
+HTML, BODY {
+	margin: 0;
+}
+
+BODY {
+	background: #000;
+	color: hsl(0,100%,100%);
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.234rem;
+	height: 100vh;
+	margin: 0;
+	overflow: hidden;
+	position: relative;
+	width: 100vw;
+	transform: translate3d(0,0,0);
+}
