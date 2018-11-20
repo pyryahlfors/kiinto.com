@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="Cache-control" content="public">
-	<title>Particle systems</title>
+	<title>Particle systems and other random shit</title>
 	<link rel="stylesheet" href="css/particles.css" />
 </head>
 
@@ -51,6 +51,7 @@ a {
 	position: relative;
 	z-index: 1;
 	transition: all 200ms ease-out;
+	outline: 0;
 }
 
 a:after {
@@ -101,13 +102,13 @@ let starfield = {
 
     init: function(){
 // Create color cycle table
-        var tempArr = [];
-        var colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
-        for(var i=1; i<this.colorCycleSeed.length; i++) {
-        	for(var j=0; j<=colorWidth; j++) {
-        		var rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
-        		var gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
-        		var br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
+        let tempArr = [];
+        let colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
+        for(let i=1; i<this.colorCycleSeed.length; i++) {
+        	for(let j=0; j<=colorWidth; j++) {
+        		let rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
+        		let gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
+        		let br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
                 tempArr.push([rr, gr, br]);
         		}
         	}
@@ -126,14 +127,14 @@ let starfield = {
     this.settings.startingX = this.canvas.width / 2;
     this.settings.startingY = this.canvas.height / 2;
 
-    var updateStarfieldSize = function(){
+    let updateStarfieldSize = function(){
         this.canvas.width = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
         this.canvas.height = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
 				this.settings.startingX = this.canvas.width / 2;
 		    this.settings.startingY = this.canvas.height / 2;
     };
 
-    var updateHeading = function(e){
+    let updateHeading = function(e){
       if(!e) e = window.event;
 	  if(e.clientY < (window.innerHeight || document.documentElement.clientHeight)) {
 	      this.settings.cx = (e.clientX - this.canvas.width / 2);
