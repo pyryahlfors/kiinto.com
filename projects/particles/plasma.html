@@ -15,27 +15,9 @@
 <script>
 // Plasma
 var plasma = function(mother) {
-    this.r = 64;
+    this.r = 255;
     this.g = 200; //Math.round(Math.random()*255);
     this.b = 255; //Math.round(Math.random()*255);
-
-    this.colorCycle = 0;
-    this.colorCycleSeed =  [[255,0,0],[255,0,255],[0,0,255],[0,255,255],[0,255,0],[255,255,0],[255,0,0]];
-    this.colorCycleSize = 255;
-    this.colorCycleTable = [];
-
-/* Generate color cycle table */
-    var tempArr = [];
-    var colorWidth = Math.round(this.colorCycleSize / (this.colorCycleSeed.length-1));
-    for(var i=1; i<this.colorCycleSeed.length; i++) {
-        for(var j=0; j<=colorWidth; j++) {
-            var rr = Math.floor(this.colorCycleSeed[i-1][0] - ((this.colorCycleSeed[i-1][0] - this.colorCycleSeed[i][0])/colorWidth*j));
-            var gr = Math.floor(this.colorCycleSeed[i-1][1] - ((this.colorCycleSeed[i-1][1] - this.colorCycleSeed[i][1])/colorWidth*j));
-            var br = Math.floor(this.colorCycleSeed[i-1][2] - ((this.colorCycleSeed[i-1][2] - this.colorCycleSeed[i][2])/colorWidth*j));
-            tempArr.push([rr, gr, br]);
-            }
-        }
-    this.colorCycleTable = tempArr;
 
     this.canvas = document.createElement("canvas");
 
@@ -69,8 +51,6 @@ var plasma = function(mother) {
 };
 
 plasma.prototype.draw = function(el, plasmaMap, colorMap) {
-    this.colorCycle++;;
-    if(this.colorCycle > this.colorCycleTable.length-1){this.colorCycle = 0;}
     var time = new Date().getTime() * 0.0005; // speed
     var w = this.canvas.width;
     var h = this.canvas.height;
@@ -113,16 +93,16 @@ plasma.prototype.plasmaMap = function(x, y, time) {
     v+= Math.sin((x*10+y*10+time)/2.0);
     var cx = x + .5 * Math.sin(time/5.0);
     var cy = y + .5 * Math.cos(time/3.0);
-    v+= Math.sin(Math.sqrt(100*(cx*cx+cy*cy)+1)+time);
-    v/=3; // thickness
+    v+= Math.cos(Math.sqrt(100*(cx*cx+cy*cy)+1)+time);
+    v/=1.5; // thickness
     return v;
 };
 
 plasma.prototype.colorMap = function(px, offset, v) {
-    px[offset] = this.colorCycleTable[Math.round(this.colorCycle)][0] - (255 * (.5 + .5 * Math.sin(Math.PI * v)));
-    px[offset + 1] = this.colorCycleTable[Math.round(this.colorCycle)][1] - (255 * (.5 + .5 * Math.cos(Math.PI * v)));
-    px[offset + 2] = this.colorCycleTable[Math.round(this.colorCycle)][2] - (255 * (.5 + .5 * Math.cos(Math.PI * v)));
-    px[offset + 3] = 255; // alpha
+	px[offset] = this.r - (255*(.5+.5*Math.sin(Math.PI*v)));
+	px[offset+1] = this.g - (255*(.5+.5*Math.cos(Math.PI*v)));
+	px[offset+2] = this.b - (255*(.5+.5*Math.cos(Math.PI*v)));
+	px[offset+3] = 255;
 };
 
 plasma.prototype.kill = function() {
