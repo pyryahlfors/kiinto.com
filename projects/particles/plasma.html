@@ -51,7 +51,7 @@ var plasma = function(mother) {
 };
 
 plasma.prototype.draw = function(el, plasmaMap, colorMap) {
-    var time = new Date().getTime() * 0.0005; // speed
+    var time = new Date().getTime() * 0.003; // speed
     var w = this.canvas.width;
     var h = this.canvas.height;
     var imageData = el.getImageData(0, 0, w, h);
