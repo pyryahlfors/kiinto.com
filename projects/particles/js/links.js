@@ -7,6 +7,7 @@ const linkArray = {
   Sperm : 'particles/sperm.html',
   Electricity : 'particles/electricity.html',
   Plasma : 'particles/plasma.html',
+  'Ascii Plasma' : 'particles/ascii_plasma.html',
   Medusa : 'particles/medusa.html',
   Wormhole : 'particles/wormhole.html',
   Walker : 'particles/walker.html'
