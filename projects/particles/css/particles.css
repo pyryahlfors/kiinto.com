@@ -30,7 +30,8 @@ CANVAS {
 	padding: 20px;
 	font-size: 1em;
 	z-index: 9999;
-	position: relative;
+	position: absolute;
+	top: 0;
 }
 
 a {

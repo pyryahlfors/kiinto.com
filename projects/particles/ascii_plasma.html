@@ -99,10 +99,10 @@ plasma.prototype.animate = function(plasmaMap, colorMap) {
 
 plasma.prototype.plasmaMap = function(x, y, time) {
 	 var v = 0;
-	 v+= Math.sin((x*10+time));
+	 v+= Math.cos((x*10+time));
 	 v+= Math.cos((y*10+time)/2.0);
-	 v+= Math.sin((x*10+y*10+time)/2.0);
-	 var cx = x + .5 * Math.sin(time/5.0);
+	 v+= Math.cos((x*10+y*10+time)/2.0);
+	 var cx = x + .5 * Math.cos(time/5.0);
 	 var cy = y + .5 * Math.cos(time/3.0);
 	 v+= Math.sin(Math.sqrt(32*(cx*cx+cy*cy)+1)+time);
 	 v/=1.5;
