@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Cache-control" content="public">
+	<title>Ping Pong</title>
+	<link rel="stylesheet" href="css/particles.css" />
+
+	<style>
+	.pingpong
+	{
+	background	: #202020;
+	color		: #efefef;
+	height		: 100%;
+	}
+
+.pingpong .sprite
+	{
+	position	: absolute;
+	}
+
+.pingpong .pixel
+	{
+	background	: #00cc00;
+	position	: absolute;
+	}
+
+.pingpong .scoreBoard
+	{
+	margin		: 0 auto 0;
+	color		: #ff5f00;
+	position	: relative;
+	width		: 100%;
+	top		: 10px;
+	text-align	: center;
+	}
+
+.pingpong .scoreBoardLeft
+	{
+	position	: relative;
+	width		: 20px;
+	margin		: 0 auto 0;
+	padding-right	: 30px;
+	}
+
+.pingpong .scoreBoardRight
+	{
+	position	: relative;
+	width		: 20px;
+	margin		: 0 auto 0;
+	padding-left	: 30px;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="intro"></div>
+
+<script>
+var pingpong = {
+	pixelWidth	: 5,
+	pixelHeight	: 7,
+	icons		:    [[[4,7],[1,1,1,1,1,0,0,1,1,0,1,1,1,1,0,1,1,0,0,1,1,0,0,1,1,1,1,1]],
+			      [[4,7],[0,1,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,1,1,1]],
+			      [[4,7],[1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1]],
+			      [[4,7],[1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1]],
+			      [[4,7],[0,0,0,1,0,0,1,1,0,1,0,1,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,1]],
+			      [[4,7],[1,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1]],
+			      [[4,7],[1,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1]],
+			      [[4,7],[1,1,1,1,0,0,0,1,0,0,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0,1,0,0]],
+			      [[4,7],[1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1]],
+			      [[4,7],[1,1,1,1,1,0,0,1,1,0,0,1,1,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1]]],
+	paddle		:     [[4,7],[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]],
+	ball		: [[4,3], [1,1,1,1,1,1,1,1,1,1,1,1]],
+	instances	: [],
+
+	defaults: function(self) {
+		self.scoreRight = 0;
+		self.scoreLeft = 0;
+		},
+
+	initWidget: function() {
+		var date = new Date();
+		var newInstance = {};
+		newInstance.id = date.getMinutes()+""+date.getSeconds()+""+date.getMilliseconds();
+		pingpong.instances.push(newInstance);
+		newInstance.run = new pingpong.createSprites(newInstance);
+		},
+
+	createSprites: function(self) {
+		self.parent = document.body;
+		self.parent.contentContainer = document.createElement("DIV");
+		self.parent.contentContainer.style.width = "100vw";
+		self.parent.contentContainer.style.height = "100vh";
+		self.parent.contentContainer.style.background = "hsl(10%, 10%, 90)";
+		self.parent.appendChild(self.parent.contentContainer);
+
+		self.parent.addEventListener('mousemove', function(e){pingpong.playBall(e, self.player);}, false);
+
+		self.parent.contentContainer.className = "pingpong";
+
+		pingpong.defaults(self);
+
+/* Create scoreboard */
+		var scoreBoard = document.createElement("DIV");
+		scoreBoard.className = 'scoreBoard';
+
+		var scoreBoardLeft = document.createElement("DIV");
+		scoreBoardLeft.className = "scoreBoardLeft";
+		self.scoreBoardLeft = scoreBoardLeft;
+		scoreBoard.appendChild(scoreBoardLeft);
+
+		var scoreBoardRight = document.createElement("DIV");
+		scoreBoardRight.className = "scoreBoardRight";
+		self.scoreBoardRight = scoreBoardRight;
+		scoreBoard.appendChild(scoreBoardRight);
+		self.parent.contentContainer.appendChild(scoreBoard);
+/* # Create scoreboard */
+
+		self.player = pingpong.drawSprite(pingpong.paddle);
+		self.player._width = pingpong.paddle[0][0]*pingpong.pixelWidth;
+		self.player._height= pingpong.paddle[0][1]*pingpong.pixelHeight;
+		self.parent.contentContainer.appendChild(self.player);
+
+		self.computer = pingpong.drawSprite(pingpong.paddle);
+		self.computer._width = pingpong.paddle[0][0]*pingpong.pixelWidth;
+		self.computer._height= pingpong.paddle[0][1]*pingpong.pixelHeight;
+		self.computer.style.right = self.computer._width+"px";
+		self.computer.style.top = 0+"px";
+		self.computer._speed =3;
+		self.parent.contentContainer.appendChild(self.computer);
+
+
+		self.puck = pingpong.drawSprite(pingpong.ball);
+		self.puck._x = +1;
+		self.puck._y = +1;
+		self.puck._speed = -3;
+		self.puck._width = pingpong.ball[0][0]*pingpong.pixelWidth;
+		self.puck._height= pingpong.ball[0][1]*pingpong.pixelHeight;
+		self.puck.style.left = (parseInt(self.parent.contentContainer.offsetWidth)/2) - (self.puck._width/2)+"px";
+		self.puck.style.top= (parseInt(self.parent.contentContainer.style.height)/2) - (self.puck._height/2)+"px";
+		self.parent.contentContainer.appendChild(self.puck);
+
+		pingpong.init(self);
+		},
+
+	init: function(self){
+		if(typeof(self.timer) == 'undefined') self.timer = setInterval(function(){pingpong.timeouts(self)},10);
+
+		self.scoreRight = 0;
+		self.scoreLeft = 0;
+		pingpong.updateScore(self);
+		},
+
+	timeouts: function(self){
+		pingpong.movePuck(self);
+		pingpong.moveComputer(self);
+		},
+
+	playBall: function(e, player) {
+		player.style.top = e.pageY+"px";
+		},
+
+	movePuck: function(self){
+		(parseInt(self.puck.style.top)+self.puck._height+(self.puck._y*self.puck._speed) > parseInt(self.parent.contentContainer.scrollHeight)) ? self.puck._y*=-1 : false;
+		(parseInt(self.puck.style.left)+self.puck._width+(self.puck._x*self.puck._speed) > parseInt(self.parent.contentContainer.scrollWidth)) ? self.puck._x*=-1 : false;
+		(parseInt(self.puck.style.top)+(self.puck._y*self.puck._speed) < 0) ? self.puck._y*=-1 : false;
+
+		if(parseInt(self.puck.style.left) <= self.player._width)
+			{
+			(parseInt(self.puck.style.top)+self.puck._height > parseInt(self.player.style.top) && parseInt(self.puck.style.top) < parseInt(self.player.style.top)+self.player._height) ? self.puck._x*=-1 : pingpong.updateScore(self, 1);
+			}
+
+		if(parseInt(self.puck.style.left) >= parseInt(self.parent.contentContainer.offsetWidth)-self.computer._width-self.puck._width)
+			{
+			(parseInt(self.puck.style.top)+self.puck._height > parseInt(self.computer.style.top) && parseInt(self.puck.style.top) < parseInt(self.computer.style.top)+self.computer._height) ? self.puck._x*=-1 : pingpong.updateScore(self, 0);
+			}
+
+		self.puck.style.top = parseInt(self.puck.style.top)+(self.puck._y*self.puck._speed)+"px";
+		self.puck.style.left= parseInt(self.puck.style.left)+(self.puck._x*self.puck._speed)+"px";
+		},
+
+	moveComputer: function(self){
+		if(parseInt(self.puck.style.top)+self.puck._height  > parseInt(self.computer.style.top)+self.computer._height) self.computer.style.top = parseInt(self.computer.style.top)+self.computer._speed+"px";
+		if(parseInt(self.puck.style.top) < parseInt(self.computer.style.top)) self.computer.style.top = parseInt(self.computer.style.top)-self.computer._speed+"px";
+		},
+
+	drawSprite: function(icon){
+		if(typeof(icon) == 'undefined') return false;
+		var sprite = document.createElement("DIV");
+		sprite.className = 'sprite';
+		var i=0;
+		for(var y=0; y < icon[0][1]; y++){
+			for(var x=0; x < icon[0][0]; x++){
+				if(icon[1][i] == 1){
+					var pixel = document.createElement("DIV")
+					pixel.className = "pixel";
+					pixel.style.height = pingpong.pixelHeight+"px";
+					pixel.style.width = pingpong.pixelWidth+"px";
+					pixel.style.top = pingpong.pixelHeight * y +"px";
+					pixel.style.left = pingpong.pixelWidth * x +"px";
+					sprite.appendChild(pixel);
+					}
+				i++;
+				}
+			}
+		return sprite;
+		},
+
+	updateScore: function(self, side) {
+		(side === 0) ? self.scoreLeft++ : false;
+		(side === 1) ? self.scoreRight++ : false;
+		(self.scoreRight > 9) ? pingpong.init(self) : false;
+		(self.scoreLeft > 9) ? pingpong.init(self) : false;
+
+		self.puck._x*=-1;
+		self.puck.style.left = (parseInt(self.parent.contentContainer.scrollWidth)/2) - (self.puck._width/2)+"px";
+		self.scoreBoardLeft.innerHTML = "";
+		self.scoreBoardRight.innerHTML = "";
+		self.scoreBoardLeft.appendChild(pingpong.drawSprite(pingpong.icons[self.scoreLeft]));
+		self.scoreBoardRight.appendChild(pingpong.drawSprite(pingpong.icons[self.scoreRight]));
+		}
+	};
+
+pingpong.initWidget()
+</script>
+<script src="js/links.js"></script>
+
+</body>
+</html>

@@ -299,11 +299,12 @@ class particle {
 // Pile sand
 		if (params.mother.pileHeight[thisX] <= thisXl &&
 			params.mother.pileHeight[thisX] <= thisXr) {
+				let randomSeed = Math.round(-10 + Math.random()*20);
 			params.mother.pileHeight[thisX] = params.mother.canvas.height - Math.floor(this.y);
 			this.setPixel(params.mother.stackingCanvas.ctx, thisX, Math.floor(this.y), {
-				r: this.color.r,
-				g: this.color.g,
-				b: this.color.b,
+				r: this.color.r + randomSeed,
+				g: this.color.g + randomSeed,
+				b: this.color.b + randomSeed,
 				a: this.color.a
 			});
 			delete params.mother.particles[this.id];
@@ -322,6 +323,13 @@ class particle {
 particles.init();
 </script>
 <script src="js/links.js"></script>
+<script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">
+	try {
+		_uacct = "UA-6357665-1";
+		urchinTracker();
+	} catch (err) {}
+</script>
 
 </body>
 
