@@ -1,5 +1,20 @@
-// Plasma
-var lSystem = function(mother) {
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="Cache-control" content="public">
+	<title>L system</title>
+	<link rel="stylesheet" href="css/particles.css" />
+</head>
+
+<body>
+	<div class="intro"></div>
+
+<script>
+	// Plasma
+var lSystem = function() {
     this.pixelRatio = (window.devicePixelRatio) ? Math.floor(window.devicePixelRatio) : 1;
 
     this.canvas = document.createElement("canvas");
@@ -30,10 +45,28 @@ var lSystem = function(mother) {
 
 	window.addEventListener('resize', updateCanvasSize.bind(this), false);
 
-    this.axiom = "F"; //−G−G";
+	this.axiom = "A"; // Trees
+    this.axiom = "F--F--F"; //−G−G";
+	this.axiom = "F-F-F-F";	// Koch island
+//	this.axiom = "A";
     document.addEventListener('click', function(){
-//    this.generate(this.axiom, [{a: "X", b: "F−[[X]+X]+F[+FX]−X"}, {a: "F", b: "FF"}], this.len, 25);
-      this.generate(this.axiom, [{a: "F", b: "FF+[+F-F-F]-[-F+F+F]"}], this.len, 25);
+//    this.generate(this.axiom, [{a: "B−A−B)", b: "A+B+A" }], this.len, 60);
+
+// Ball of
+//this.generate(this.axiom, [{a: "F", b: "FFF+F+FF-F+F+FF"}], this.len, 25);
+
+// Tree
+//      this.generate(this.axiom, [{a: "F", b: "FF+[+F-F-F]-[-F+F+F]"}], this.len, 25);
+
+// quadratic Koch island.
+      this.generate(this.axiom, [{a: "F", b: "F-F+F+FF-F-F+F"}], this.len, 90);
+
+// Tree
+//		this.generate(this.axiom, [{a: "F", b: "F[+F]F[+F][-F]"}], this.len, 25);
+
+//		this.generate(this.axiom, [{f: "F-G+F+G-F", g: "GG"}], this.len, 120);
+
+
     }.bind(this), false);
 };
 
@@ -56,6 +89,7 @@ lSystem.prototype.generate = function(axiom, rules, len, angle){
         }
       }
       this.axiom = nextSentence;
+			console.log(this.axiom);
       this.turtle();
 }
 
@@ -63,10 +97,9 @@ lSystem.prototype.turtle = function() {
     this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.ctx.resetTransform();
 
-    this.ctx.strokeStyle = "rgba(0,255,0,1)";
-    this.ctx.fillStyle = "rgba(0,255,0,1)";
+    this.ctx.strokeStyle = "rgb(255,255,1	)";
 
-    this.ctx.translate(this.canvasWidth / 2*this.pixelRatio, this.canvasHeight*this.pixelRatio);
+    this.ctx.translate(this.canvasWidth / 2*this.pixelRatio, this.canvasHeight);
 
     this.ctx.beginPath();
     this.history = [];
@@ -95,3 +128,18 @@ lSystem.prototype.turtle = function() {
     this.ctx.stroke();
     this.ctx.closePath();
 };
+
+new lSystem();
+
+</script>
+<script src="js/links.js"></script>
+<!--script src="https://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+<script type="text/javascript">
+	try {
+		_uacct = "UA-6357665-1";
+		urchinTracker();
+	} catch (err) {}
+</script-->
+
+</body>
+</html>

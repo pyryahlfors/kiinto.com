@@ -432,6 +432,7 @@ span.arrow span:last-of-type {
 .article-title span {
 	color: var(--color-black-alpha);
 	font-weight: 900;
+	white-space: nowrap;
 }
 
 
