@@ -59,6 +59,9 @@ a:link, a:visited {
 	font-weight: 800;
 	margin: 0 0 .5rem;
 	letter-spacing: -.2rem;
+	font-family: 'IBM Plex Mono';
+	font-weight: 100;
+	font-variant: all-small-caps;
 }
 
 .intro P {
