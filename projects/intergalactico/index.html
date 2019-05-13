@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Intergalactic shape randomizer</title>
+
+<style>
+HTML, BODY {
+  width: 100vmin;
+  height: 100vmin;
+  overflow: hidden;
+  background: #111;
+  margin: 0;
+}
+
+FIGURE {
+  position: relative;
+  width: 100vmin;
+  height: 100vmin;
+  margin: 0 auto;
+  background: #fff;
+}
+.clipContainer {
+  width: 100%;
+  height:100%;
+  position: absolute;
+  mix-blend-mode: multiply;
+}
+
+.triangle, .circle, .square, .triangle-small, .circle-small, .square-small,
+.triangle-upside, .triangle-upside-small {
+  width: 100%;
+  height:100%;
+  mix-blend-mode: multiply;
+  position: absolute;
+}
+
+.triangle-small, .circle-small, .square-small, .triangle-upside-small {
+  width: 50%;
+  height:50%;
+  margin-left: 25%;
+  margin-top: 25%;
+}
+
+.triangle, .triangle-small {clip-path: polygon(50% 0%, 0% 100%, 100% 100%);}
+.triangle-upside, .triangle-upside-small {clip-path: polygon(50% 100%, 0% 0%, 100% 0%);}
+
+.circle, .circle-small {clip-path: circle(50% at 50% 50%);}
+
+.square, .square-small {clip-path: inset(0% 0% 0% 0%);}
+
+.blue {background: #00A9E4;}
+.red {background: #E20085;}
+.yellow {background: #F6C507;}
+
+.red-to-blue {background: linear-gradient(#E20085, #00A9E4);}
+.blue-to-yellow {background: linear-gradient(#00A9E4, #F6C507);}
+.yellow-to-red {background: linear-gradient(#F6C507, #E20085);}
+
+.left         {transform: translate3d(-50%, 0, 0 );}
+.leftTop      {transform: translate3d(-50%, -50%, 0 );}
+.right        {transform: translate3d(50%, 0, 0 );}
+.rightBottom  {transform: translate3d(50%, 50%, 0 );}
+.rightTop     {transform: translate3d(50%, -50%, 0 );}
+.top          {transform: translate3d(0, -50%, 0 );}
+.bottom       {transform: translate3d(0, 50%, 0 );}
+
+.clipLeftTop    {clip-path: polygon(0 0, 50% 0px, 50% 50%, 0 50%)}
+.clipRightTop   {clip-path: polygon(50% 0, 100% 0, 100% 50%, 50% 50%)}
+.clipRightBottom{clip-path: polygon(50% 100%, 100% 100%, 100% 50%, 50% 50%)}
+.clipLeftBottom {clip-path: polygon(0 100%, 50% 100%, 50% 50%, 0 50%)}
+</style>
+</head>
+
+<body>
+
+<figure>
+</figure>
+
+<script>
+
+const randomize = () => {
+  let container = document.querySelector('FIGURE');
+  let elems = container.querySelectorAll('DIV');
+  elems.forEach((el) => {
+      el.parentNode.removeChild(el);
+    });
+
+  let shapes = ['triangle', 'circle', 'square', 'circle-small', 'triangle-small', 'square-small', 'triangle-upside', 'triangle-upside-small'];
+  let colors = ['red', 'blue', 'yellow','red-to-blue', 'blue-to-yellow', 'yellow-to-red'];
+
+  let pos = ['left', 'leftTop', 'right', 'rightBottom', 'rightTop', 'top', 'bottom', 'pask'];
+  let clipEl = ['clipRightTop', 'clipLeftTop', 'clipRightBottom', 'clipLeftBottom'];
+
+  for(let i=0, j=4; i<j; i++) {
+    let el = document.createElement('DIV');
+    el.classList.add(shapes[Math.round(Math.random()*(shapes.length-1))]);
+    el.classList.add(colors[Math.round(Math.random()*(colors.length-1))]);
+    el.classList.add(pos[Math.round(Math.random()*(pos.length-1))]);
+
+    let clip = Math.random() >= 0.5;
+    if(clip) {
+      let clipContainer = document.createElement('DIV');
+      clipContainer.classList.add('clipContainer');
+      clipContainer.classList.add(clipEl[Math.round(Math.random()*(clipEl.length-1))]);
+      clipContainer.appendChild(el);
+      container.appendChild(clipContainer)
+      }
+    else {
+      container.appendChild(el);
+    }
+  }
+}
+
+randomize();
+
+document.addEventListener('keypress', randomize, false);
+</script>
+</body>
+</html>
