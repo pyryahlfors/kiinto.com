@@ -13,3 +13,15 @@
   30% { opacity: 0 }
   100% { opacity: 1; top: 0 }
 }
+
+
+@keyframes gravity {
+0% {
+    -webkit-transform: translateY(-100.5%);
+    transform: translateY(-100.5%);
+}
+100% {
+    -webkit-transform: translateY(100.5%);
+    transform: translateY(100.5%);
+}
+}

@@ -178,7 +178,7 @@ a:link, a:visited {
 	bottom: 20px;
 	right: 20px;
 	color: var(--color-pastel-green);
-	box-shadow: inset 0 0 0 2px var(--color-pastel-green);
+	box-shadow: inset 0 0 0 1px var(--color-pastel-green);
 }
 .hero-container .button:hover {
 	background: var(--color-pastel-green);
@@ -201,7 +201,7 @@ a:link, a:visited {
 
 .button {
 	background: transparent;
-	box-shadow: inset 0 0 0 2px var(--color-black-alpha);
+	box-shadow: inset 0 0 0 1px var(--color-black-alpha);
 	border: 0;
 	border-color: inherit;
 	border-radius: 0;
@@ -260,7 +260,7 @@ a.header-button:hover {
 	background: transparent;}
 
 a.scroll {
-	box-shadow: inset 0 0 0 2px var(--color-white-alpha);
+	box-shadow: inset 0 0 0 1px var(--color-white-alpha);
 	color: var(--color-white-alpha);
 	position: relative;
 	z-index: 9999;
@@ -275,6 +275,10 @@ a.scroll:hover {
 	background: var(--color-white-alpha);
 	box-shadow: none;
 	color: var(--color-black-alpha);
+}
+
+a.scroll:hover .stripes DIV {
+	background: var(--color-black-alpha);
 }
 
 
@@ -378,7 +382,7 @@ span.arrow {
 span.arrow span {
 	background: var(--color-white);
 	display: block;
-	height: 2px;
+	height: 1px;
 	left: -3px;
 	position: absolute;
 	top: 30px;
@@ -494,4 +498,36 @@ body.portrait .parallax-container div img {
 
 @keyframes scroll{
   100%{transform: translateX(100%);}
+}
+
+.stripes {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	overflow: hidden;
+	margin: 0 40px;
+}
+
+.stripes DIV {
+	width: 1px;
+	height: 100%;
+	position: absolute;
+	left: 0;
+	top: 0;
+	animation: gravity 0.8s infinite;
+	animation-timing-function: ease-in-uot;
+	background: var(--color-white-alpha);
+}
+
+.stripes DIV:nth-of-type(2) {
+	left: unset;
+	right: 0;
+	animation-delay: 0.15s;
+}
+
+.stripes DIV:nth-of-type(3) {
+	left: 50%;
+	animation-delay: 0.3s;
 }

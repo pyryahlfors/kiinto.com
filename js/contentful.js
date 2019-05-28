@@ -11,6 +11,12 @@
 				${tmplData.ingress}
 			</p>
 			<a href="#projects" class="button scroll">
+			<div class="stripes">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+
 				<span class="arrow">
 					<span></span>
 					<span></span>
