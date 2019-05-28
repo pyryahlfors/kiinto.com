@@ -57,17 +57,16 @@ a:link, a:visited {
 
 .intro h1 {
 	font-weight: 800;
-	margin: 0 0 .5rem;
+	margin:0;
 	letter-spacing: -.2rem;
-	font-family: 'IBM Plex Mono';
-	font-weight: 100;
+	font-weight: 400;
 	font-variant: all-small-caps;
+	font-size: 4rem;
 }
 
 .intro P {
 	margin: 0 0 .5rem;
 	line-height: 1.5rem;
-	font-family: 'IBM Plex Mono', monospace;
 }
 
 .intro CANVAS {

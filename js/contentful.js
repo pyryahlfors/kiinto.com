@@ -7,9 +7,7 @@
 			<h1>
 				${tmplData.title}
 			</h1>
-			<p>
-				${tmplData.ingress}
-			</p>
+			<p>${tmplData.ingress}</p>
 			<a href="#projects" class="button scroll">
 			<div class="stripes">
 				<div></div>
